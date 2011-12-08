@@ -1,0 +1,230 @@
+updeb (1.0.0) unstable; urgency=low
+
+  * Initial source package Release.
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Tue, 29 Nov 2011 18:08:04 +0400
+
+
+updeb (0.0.30) unstable; urgency=low
+
+  * Replace apt-get with $APT where it used for update command
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Tue, 14 Sep 2010 12:31:40 +0400
+
+
+updeb (0.0.29) unstable; urgency=low
+
+  * Replace $(hostname) with $HOSTNAME in report subject.
+  * Force apt-get for update command.
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Wed, 26 Aug 2009 15:16:06 +0400
+
+
+updeb (0.0.28) unstable; urgency=low
+
+  * Add hostname to report subject.
+  * Do not autoremove and get_diff on error.
+  * Move set +x just after RETURN=$?.
+  * Increase error report lines to 20.
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Wed, 19 Aug 2009 14:03:57 +0400
+
+
+updeb (0.0.27) unstable; urgency=low
+
+  * Move install after upgrade.
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Mon, 20 Jul 2009 20:50:19 +0400
+
+
+updeb (0.0.26) unstable; urgency=low
+
+  * Add DEBUG variable to turn off "set -x" on error.
+  * Replace debug option "set -v" with "set -x" on error.
+  * Move "set +x" on error into error block.
+  * Rename config man updeb.conf.5.gz to updebrc.5.gz  
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Thu, 16 Jul 2009 12:25:14 +0400
+
+
+updeb (0.0.25) unstable; urgency=low
+
+  * Add debug option (set -v) after first error.
+  * Fix version number.
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Tue, 14 Jul 2009 12:22:00 +0400
+
+
+updeb (0.0.24) unstable; urgency=low
+
+  * Removed  default value for PARAMETERS. 
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Mon, 18 May 2009 12:48:55 +0400
+
+
+updeb (0.0.23) unstable; urgency=low
+
+  * Removed --allow-untrusted by default.
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Thu, 14 May 2009 15:25:41 +0400
+
+
+updeb (0.0.22) unstable; urgency=low
+
+  * Added packages to be installed INSTALL="".
+  * Changed config path and name to /etc/udpeb/updebrc.
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Wed, 18 Feb 2009 18:33:00 +0300
+
+
+updeb (0.0.21) unstable; urgency=low
+
+  * Move call preupgrade and postupgrade close to start and finish
+    respectively.
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Tue, 29 Jul 2008 13:44:24 +0400
+
+
+updeb (0.0.20) unstable; urgency=low
+
+  * Added UCF_FORCE_CONFFOLD to prevent prompting from ucf
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Wed, 16 Jul 2008 11:56:12 +0400
+
+
+updeb (0.0.19) unstable; urgency=low
+
+  * To fix post-upgrade actions, based on system changes, the new get_diff()
+    function introduced to set $DIFF variable.
+  * Replace depends on obsolete package mailx with mailutils.
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Mon, 23 Jun 2008 16:13:25 +0400
+
+
+updeb (0.0.18) unstable; urgency=low
+
+  * Fixed "Argument list too long" error when big report
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Tue, 20 May 2008 15:30:27 +0400
+
+
+updeb (0.0.17) unstable; urgency=low
+
+  * Weird
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Fri, 28 Mar 2008 18:55:26 +0300
+
+
+updeb (0.0.16) unstable; urgency=low
+
+  * added aptitude as alternative for apt-get
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Wed, 26 Mar 2008 20:11:14 +0300
+
+
+updeb (0.0.15) unstable; urgency=low
+
+  * snapshot format changed
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Tue, 04 Dec 2007 12:37:22 +0300
+
+
+updeb (0.0.14) unstable; urgency=low
+
+  * fixed report upgraded packages
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Tue, 04 Dec 2007 11:35:03 +0300
+
+
+updeb (0.0.13) unstable; urgency=low
+
+  * fixed report removed packages
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Mon, 03 Dec 2007 16:12:22 +0300
+
+
+updeb (0.0.12) unstable; urgency=low
+
+  * fixed return status of dupgrade
+  * added option for autoremove
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Wed, 01 Aug 2007 13:21:19 +0400
+
+
+updeb (0.0.11) unstable; urgency=low
+
+  * added pre-upgrade function
+  * added extra apt-get options
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Wed, 01 Aug 2007 11:47:53 +0400
+
+
+updeb (0.0.10) unstable; urgency=low
+
+  * added --allow-unauthenticated to config
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Tue, 31 Jul 2007 16:58:05 +0400
+
+
+updeb (0.0.9) unstable; urgency=low
+
+  * added autoremove (apt-get -y autoremove)
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Tue, 31 Jul 2007 16:26:21 +0400
+
+
+updeb (0.0.8) unstable; urgency=low
+
+  * remove upgrade simulation (apt-get -s)
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Fri, 18 May 2007 15:40:17 +0400
+
+
+updeb (0.0.7) unstable; urgency=low
+
+  * repeat upgrade after -f install
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Thu, 21 Sep 2006 13:46:06 +0400
+
+
+updeb (0.0.6) unstable; urgency=low
+
+  * Cache cleaning up moved from after to before upgrade.
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Fri, 25 Aug 2006 15:50:11 +0400
+
+
+updeb (0.0.5) unstable; urgency=low
+
+  * Added customized postupgrade function
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Tue, 20 Jun 2006 11:22:31 +0400
+
+
+updeb (0.0.4) unstable; urgency=low
+
+  * Added "apt-get -f install" when "apt-get upgrade" return non-zero error.
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Mon, 16 Jan 2006 10:27:43 +0300
+
+
+updeb (0.0.3) unstable; urgency=low
+
+  * Added DEBIAN_FRONTEND=noninteractive
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Fri, 12 Nov 2004 12:54:25 +0300
+
+
+updeb (0.0.2) unstable; urgency=low
+
+  * Added dpkg-preconfigure option to enable Noninteractive frontend.
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Tue, 09 Nov 2004 14:33:06 +0300
+
+
+updeb (0.0.1) unstable; urgency=low
+
+  * Intital release.
+
+ -- Vladimir Stavrinov <vs@inist.ru>  Fri, 05 Nov 2004 13:50:18 +0300
+

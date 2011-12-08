@@ -1,0 +1,22 @@
+Source: updeb
+Section: admin
+Priority: optional
+Maintainer: Vladimir Stavrinov <vstavrinov@gmail.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.2
+#Homepage: <insert the upstream URL, if relevant>
+#Vcs-Git: git://git.debian.org/collab-maint/updeb.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/updeb.git;a=summary
+
+Package: updeb
+Architecture: all
+Depends: ${misc:Depends}, mailutils, aptitude | apt, debtags
+Description: Non-interactive upgrade Debian system
+ This script will upgrade running Debian system and email the
+ result: what was upgraded, from what version to what and
+ for what period of time. The actual upgrade will be done only if
+ all index files will be successfully updated, all required
+ packages will be successfully downloaded, and finally only if the
+ simulating of upgrade will be finished without errors. All old
+ configuration files are preserved and can be compared with new
+ *.dpkg-dist files. It is intended to be used as cron job. 

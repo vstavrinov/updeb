@@ -1,0 +1,81 @@
+.TH UPDEBRC "5" "6 November 2004" "Linux" "Debian"
+
+.SH NAME
+updebrc \- Configuration file for updeb
+
+.SH DESCRIPTION
+ updebrc is configuration file for updeb utility to upgrade
+ debian system non\-interactively. It's location is taken from \-c
+ option, CONFIG variable or set to /etc/updeb/updebrc in this order.
+ If nothing found, then all parameters are set to it's defaults. In
+ fact, it is shell script setting environment variables, described
+ bellow. In this description all variables are set to it's default
+ values.
+
+.SH VARIABLES
+ These shell variables are sourced by updeb script. You can redefine
+ all of them in the file /etc/updeb/updebrc.local
+
+.TP
+ SNAPSHOT=/var/lib/updeb/snapshot
+ Where to store packages versions list
+
+.TP
+ VERBOSE="\-V \-q=1 \-u"
+ Define what details write to log file. See man apt\-get for
+ details.
+
+.TP
+ PARAMETERS="\-\-allow-unauthenticated"
+ Any other apt-get command line options
+
+.TP
+ DIST=dist\-upgrade
+ Upgrade command. Possible values: "upgrade" or "dist\-upgrade".
+ "upgrade" is more conservative.
+
+.TP
+ CLEAN=autoclean
+ Cleaning download cache. Possible values: "clean" or "autoclean".
+ "clean" is more radical.
+
+.TP
+ AUTOREMOVE=true
+ AUTOREMOVE is used to remove packages that were automatically installed to
+ satisfy dependencies for some package and that are no more needed.
+ Possible values: "true" or "false"
+
+.TP
+ INSTALL=""
+ Space separated list of packages to be installed before upgrade.
+
+.TP
+ postupgrade () { :; }
+ Use this function to define post-upgrade actions, for example restart some
+ services. To find upgraded packages use DIFF variable.
+
+.TP
+ preupgrade () { :; } 
+ Use this function to define pre-upgrade actions, for example mount proc fs when
+ working in chroot.
+
+.TP
+ LOG=/var/log/updeb.log
+ log file
+
+.TP
+ MAILTO=root
+ To whom mail report
+
+.SH FILES
+
+.TP
+.I /etc/updeb/updebrc
+
+.SH "SEE ALSO"
+.PP
+.BR updeb "(1), " bash (1) 
+
+.SH AUTHORS
+Vladimir Stavrinov <vstavrinov@gmail.com>
+
