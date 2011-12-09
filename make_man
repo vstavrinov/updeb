@@ -18,4 +18,6 @@ for TXT in $TXTBASE/*.[1-8].txt; do
 	txt2man -s $SECTION -t $TITLE $TXT > $MANBASE/$MAN
 	man -Hcat $MANBASE/$MAN > $HTMLBASE/$MAN.html
 done
+git add man/*.[1-8] html/*.[1-8].html
+git commit
 
