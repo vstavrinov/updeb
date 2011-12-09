@@ -9,7 +9,6 @@ HTMLBASE=html
 
 type txt2man > /dev/null ||
 exit 1
-exit
 
 for TXT in $TXTBASE/*.[1-8].txt; do
 	MAN=$(basename $TXT .txt)
