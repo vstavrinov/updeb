@@ -1,0 +1,156 @@
+<!-- Creator     : groff version 1.21 -->
+<!-- CreationDate: Fri Dec  9 18:42:52 2011 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title>updebrc</title>
+
+</head>
+<body>
+
+<h1 align="center">updebrc</h1>
+
+<a href="#NAME">NAME</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#VARIABLES">VARIABLES</a><br>
+<a href="#FILES">FILES</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
+<a href="#AUTHORS">AUTHORS</a><br>
+
+<hr>
+
+
+<h2>NAME
+<a name="NAME"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>updebrc</b>
+- Configuration file for updeb</p>
+
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">updebrc is
+configuration file for updeb utility to upgrade debian
+system non&minus;interactively. It&rsquo;s location is taken
+from &minus;c option, CONFIG variable or set to
+/etc/updeb/updebrc in this order. If nothing found, then all
+parameters are set to it&rsquo;s defaults. In fact, it is
+shell script setting environment variables, described
+bellow. In this description all variables are set to
+it&rsquo;s default values.</p>
+
+<h2>VARIABLES
+<a name="VARIABLES"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">These shell
+variables are sourced by updeb script. You can redefine all
+of them in the file /etc/updeb/updebrc.local <b><br>
+SNAPSHOT=/var/lib/updeb/snapshot</b></p>
+
+<p style="margin-left:22%;">Where to store packages
+versions list</p>
+
+<p style="margin-left:11%;"><b>VERBOSE=&quot;&minus;V
+&minus;q=1 &minus;u&quot;</b></p>
+
+<p style="margin-left:22%;">Define what details write to
+log file. See man apt&minus;get for details.</p>
+
+
+<p style="margin-left:11%;"><b>PARAMETERS=&quot;&minus;&minus;allow-unauthenticated&quot;</b></p>
+
+<p style="margin-left:22%;">Any other apt-get command line
+options</p>
+
+
+<p style="margin-left:11%;"><b>DIST=dist&minus;upgrade</b></p>
+
+<p style="margin-left:22%;">Upgrade command. Possible
+values: &quot;upgrade&quot; or
+&quot;dist&minus;upgrade&quot;. &quot;upgrade&quot; is more
+conservative.</p>
+
+<p style="margin-left:11%;"><b>CLEAN=autoclean</b></p>
+
+<p style="margin-left:22%;">Cleaning download cache.
+Possible values: &quot;clean&quot; or &quot;autoclean&quot;.
+&quot;clean&quot; is more radical.</p>
+
+<p style="margin-left:11%;"><b>AUTOREMOVE=true</b></p>
+
+<p style="margin-left:22%;">AUTOREMOVE is used to remove
+packages that were automatically installed to satisfy
+dependencies for some package and that are no more needed.
+Possible values: &quot;true&quot; or &quot;false&quot;</p>
+
+
+<p style="margin-left:11%;"><b>INSTALL=&quot;&quot;</b></p>
+
+<p style="margin-left:22%;">Space separated list of
+packages to be installed before upgrade.</p>
+
+<p style="margin-left:11%;"><b>postupgrade () { :;
+}</b></p>
+
+<p style="margin-left:22%;">Use this function to define
+post-upgrade actions, for example restart some services. To
+find upgraded packages use DIFF variable.</p>
+
+<p style="margin-left:11%;"><b>preupgrade () { :; }</b></p>
+
+<p style="margin-left:22%;">Use this function to define
+pre-upgrade actions, for example mount proc fs when working
+in chroot.</p>
+
+
+<p style="margin-left:11%;"><b>LOG=/var/log/updeb.log</b></p>
+
+<p style="margin-left:22%;">log file</p>
+
+<p style="margin-left:11%;"><b>MAILTO=root</b></p>
+
+<p style="margin-left:22%;">To whom mail report</p>
+
+<h2>FILES
+<a name="FILES"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em">/etc/updeb/updebrc</p>
+
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
+
+
+
+<p style="margin-left:11%; margin-top: 1em"><b>updeb</b>(1),
+<b>bash</b>(1)</p>
+
+<h2>AUTHORS
+<a name="AUTHORS"></a>
+</h2>
+
+
+<p style="margin-left:11%; margin-top: 1em">Vladimir
+Stavrinov &lt;vstavrinov@gmail.com&gt;</p>
+<hr>
+</body>
+</html>
