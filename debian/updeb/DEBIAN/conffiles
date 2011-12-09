@@ -1,0 +1,3 @@
+/etc/cron.d/updeb
+/etc/logrotate.d/updeb
+/etc/updeb/updebrc
