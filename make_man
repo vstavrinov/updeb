@@ -16,5 +16,5 @@ for TXT in $TXTBASE/*.[1-8].txt; do
 	TITLE=${MAN%.?}
 	txt2man -s $SECTION -t $TITLE $TXT > $MANBASE/$MAN
 	[ -n "$1" ] &&
-	man -Hcat $MANBASE/$MAN > $HTMLBASE/$MAN.html
+	man -Hcat $MANBASE/$MAN > $HTMLBASE/$MAN.html;
 done
