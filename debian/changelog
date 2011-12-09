@@ -1,3 +1,10 @@
+updeb (1.0.1) unstable; urgency=low
+
+  * Source tree structure changed
+  * Man page formatting improved
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Tue, 29 Nov 2011 18:08:04 +0400
+
 updeb (1.0.0) unstable; urgency=low
 
   * Initial source package Release.
