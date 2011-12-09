@@ -5,6 +5,7 @@
 
 MANBASE=man
 TXTBASE=txt
+HTMLBASE=html
 
 type txt2man > /dev/null ||
 exit 1
@@ -14,4 +15,5 @@ for TXT in $TXTBASE/*.[1-8].txt; do
 	SECTION=${MAN##*.}
 	TITLE=${MAN%.?}
 	txt2man -s $SECTION -t $TITLE $TXT > $MANBASE/$MAN
+	man -Hcat $MAN > $HTMLBASE/$MAN.html
 done
