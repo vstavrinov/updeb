@@ -1,0 +1,17 @@
+#!/bin/bash
+# Convert text files from $TXTBASE directory to
+# man pages in $MANBASE directory.
+# (C) Vladimir Stavrinov <vstavrinov@gmail.com>
+
+MANBASE=man
+TXTBASE=txt
+
+type txt2man > /dev/null ||
+exit 1
+
+for TXT in $TXTBASE/*.[1-8].txt; do
+	MAN=$(basename $TXT .txt)
+	SECTION=${MAN##*.}
+	TITLE=${MAN%.?}
+	txt2man -s $SECTION -t $TITLE $TXT > $MANBASE/$MAN
+done
