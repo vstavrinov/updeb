@@ -1,0 +1,17 @@
+Package: updeb
+Version: 1.0.0
+Architecture: all
+Maintainer: Vladimir Stavrinov <vstavrinov@gmail.com>
+Installed-Size: 68
+Depends: mailutils, aptitude | apt, debtags
+Section: admin
+Priority: optional
+Description: Non-interactive upgrade Debian system
+ This script will upgrade running Debian system and email the
+ result: what was upgraded, from what version to what and
+ for what period of time. The actual upgrade will be done only if
+ all index files will be successfully updated, all required
+ packages will be successfully downloaded, and finally only if the
+ simulating of upgrade will be finished without errors. All old
+ configuration files are preserved and can be compared with new
+ *.dpkg-dist files. It is intended to be used as cron job.

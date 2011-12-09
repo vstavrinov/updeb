@@ -1,0 +1,6 @@
+/var/log/updeb.log {
+    missingok
+    size=1M
+    rotate 5
+    compress
+}
