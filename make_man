@@ -14,10 +14,10 @@ for TXT in $TXTBASE/*.[1-8].txt; do
 	MAN=$(basename $TXT .txt)
 	SECTION=${MAN##*.}
 	TITLE=${MAN%.?}
-	txt2man -s $SECTION -t $TITLE $TXT > $MANBASE/$MAN
-	man -Hcat $MANBASE/$MAN > $HTMLBASE/$MAN.html
-	if [ -n "$1" ]; then
-		man -Hcat $MANBASE/$MAN > $HTMLBASE/$MAN.html
-	fi
+	#txt2man -s $SECTION -t $TITLE $TXT > $MANBASE/$MAN
+	#man -Hcat $MANBASE/$MAN > $HTMLBASE/$MAN.html
+	#if [ -n "$1" ]; then
+	#	man -Hcat $MANBASE/$MAN > $HTMLBASE/$MAN.html
+	#fi
 done
 
