@@ -1,9 +1,17 @@
+updeb (1.0.2) unstable; urgency=low
+
+  * Bug in man page formatting fixed.
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Mon, 12 Dec 2011 18:23:37 +0400
+
+
 updeb (1.0.1) unstable; urgency=low
 
   * Source tree structure changed
   * Man page formatting improved
 
  -- Vladimir Stavrinov <vstavrinov@gmail.com>  Fri, 09 Dec 2011 17:41:29 +0400
+
 
 updeb (1.0.0) unstable; urgency=low
 
