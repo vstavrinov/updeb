@@ -1,5 +1,5 @@
 <!-- Creator     : groff version 1.21 -->
-<!-- CreationDate: Fri Dec  9 19:42:34 2011 -->
+<!-- CreationDate: Mon Dec 12 18:28:01 2011 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -37,17 +37,17 @@
 </h2>
 
 
-<p style="margin-left:11%; margin-top: 1em">updeb - UPgrade
-DEBian system non&minus;interactively</p>
+<p style="margin-left:11%; margin-top: 1em"><b>updeb</b> -
+Upgrade Debian system non-interactively.</p>
 
 <h2>SYNOPSIS
 <a name="SYNOPSIS"></a>
 </h2>
 
 
-<p style="margin-left:11%; margin-top: 1em">updeb [
-&minus;ursmdvVh ] [ &minus;c CONFIG ] [ &minus;t MAILTO
-]</p>
+<p style="margin-left:11%; margin-top: 1em"><b>updeb</b>
+[<b>-ursmdhvV</b>] [<b>-c</b> <i>CONFIG</i>] [<b>-t</b>
+<i>MAILTO</i>]</p>
 
 <h2>DESCRIPTION
 <a name="DESCRIPTION"></a>
@@ -62,8 +62,8 @@ files will be successfully updated, all required packages
 will be successfully downloaded, and finally only if the
 simulating of upgrade will be finished without errors. All
 old configuration files are preserved and can be compared to
-new *.dpkg&minus;dist files. If any error occur, this will
-be mailed to You. It is intended to be used as cron job.</p>
+new *.dpkg-dist files. If any error occur, this will be
+mailed to You. It is intended to be used as cron job.</p>
 
 <h2>OPTIONS
 <a name="OPTIONS"></a>
@@ -77,7 +77,7 @@ be mailed to You. It is intended to be used as cron job.</p>
 <td width="3%">
 
 
-<p style="margin-top: 1em"><b>&minus;u</b></p></td>
+<p style="margin-top: 1em"><b>-u</b></p></td>
 <td width="8%"></td>
 <td width="78%">
 
@@ -88,30 +88,30 @@ be mailed to You. It is intended to be used as cron job.</p>
 <td width="3%">
 
 
-<p><b>&minus;r</b></p></td>
+<p><b>-r</b></p></td>
 <td width="8%"></td>
 <td width="78%">
 
 
 <p>Debian upgrade report to stdout only if system changed
-since last upgrade.</p></td></tr>
+since last upgrade</p></td></tr>
 <tr valign="top" align="left">
 <td width="11%"></td>
 <td width="3%">
 
 
-<p><b>&minus;m</b></p></td>
+<p><b>-m</b></p></td>
 <td width="8%"></td>
 <td width="78%">
 
 
-<p>Mail upgrade report.</p></td></tr>
+<p>Mail upgrade report</p></td></tr>
 <tr valign="top" align="left">
 <td width="11%"></td>
 <td width="3%">
 
 
-<p><b>&minus;s</b></p></td>
+<p><b>-s</b></p></td>
 <td width="8%"></td>
 <td width="78%">
 
@@ -120,23 +120,23 @@ since last upgrade.</p></td></tr>
 &quot;snapshot&quot;). This is snapshot what current state
 of the system is compared to. Its time stamp is the start of
 the report period. Note: if this option supplied alone with
-&minus;u (i.e. upgrade) the actual update of the snapshot
-will be done only if the option &minus;m (mail to) is
+<b>-u</b> (i.e. upgrade) the actual update of the snapshot
+will be done only if the option <b>-m</b> (mail to) is
 present too and the system changed, i.e. at least one
 package was upgraded, installed or removed. This is not true
-for stand alone option: i.e. updeb &minus;s will update
-snapshot in any way.</p></td></tr>
+for stand alone option: i.e. <b>updeb -s</b> will update
+snapshot in any way</p></td></tr>
 </table>
 
-<p style="margin-left:11%;"><b>&minus;c CONFIG</b></p>
+<p style="margin-left:11%;"><b>-c</b> <i>CONFIG</i></p>
 
 <p style="margin-left:22%;">Set the configuration file.
-Default /etc/updeb/updebrc .</p>
+Default /etc/<b>updeb</b>/updebrc</p>
 
-<p style="margin-left:11%;"><b>&minus;t MAILTO</b></p>
+<p style="margin-left:11%;"><b>-t</b> <i>MAILTO</i></p>
 
 <p style="margin-left:22%;">Recipient of upgrade report.
-Default root.</p>
+Default root</p>
 
 <table width="100%" border="0" rules="none" frame="void"
        cellspacing="0" cellpadding="0">
@@ -145,47 +145,47 @@ Default root.</p>
 <td width="3%">
 
 
-<p><b>&minus;v</b></p></td>
+<p><b>-v</b></p></td>
 <td width="8%"></td>
 <td width="78%">
 
 
 <p>Verbose mode. This imply the verbosity of log file only,
-but not report.</p></td></tr>
+but not report</p></td></tr>
 <tr valign="top" align="left">
 <td width="11%"></td>
 <td width="3%">
 
 
-<p><b>&minus;d</b></p></td>
+<p><b>-d</b></p></td>
 <td width="8%"></td>
 <td width="78%">
 
 
-<p>Debug mode. Set the shell options: set &minus;x
-&minus;v. Don&rsquo;t use it in cron job.</p></td></tr>
+<p>Debug mode. Set the shell options: set <b>-x -v</b>.
+Don&rsquo;t use it in cron job</p></td></tr>
 <tr valign="top" align="left">
 <td width="11%"></td>
 <td width="3%">
 
 
-<p><b>&minus;h</b></p></td>
+<p><b>-h</b></p></td>
 <td width="8%"></td>
 <td width="78%">
 
 
-<p>Help.</p></td></tr>
+<p>Help</p></td></tr>
 <tr valign="top" align="left">
 <td width="11%"></td>
 <td width="3%">
 
 
-<p><b>&minus;V</b></p></td>
+<p><b>-V</b></p></td>
 <td width="8%"></td>
 <td width="78%">
 
 
-<p>Version and copyright.</p></td></tr>
+<p>Version and copyright</p></td></tr>
 </table>
 
 <h2>EXAMPLE
@@ -197,8 +197,8 @@ but not report.</p></td></tr>
 script is running by cron daemon every night. You can add to
 crontab something like this:</p>
 
-<p style="margin-left:11%; margin-top: 1em"><b>30 1 * * *
-root updeb &minus;ums</b> <br>
+<p style="margin-left:11%; margin-top: 1em">30 1 * * * root
+updeb -ums <br>
 This will upgrade Your system every night at 01:30 and if
 system changed, update snapshot and send report to You.</p>
 
@@ -213,8 +213,8 @@ system changed, update snapshot and send report to You.</p>
 <p style="margin-left:22%;">Main configuration file setting
 shell variables for such thing as address, log file,
 verbosity, cache cleaning and upgrade mode. In turn it
-sources the file /etc/updeb/updebrc.local, where You can
-redefine all of them, leaving main config untouched.</p>
+sources the file /etc/<b>updeb</b>/updebrc.local, where You
+can redefine all of them, leaving main config untouched.</p>
 
 
 <p style="margin-left:11%;"><b>/etc/updeb/updebrc.local</b></p>
@@ -230,7 +230,7 @@ overriding ones from main config.</p>
 
 
 <p style="margin-left:11%; margin-top: 1em"><b>updebrc</b>(5),
-<b>apt&minus;get</b>(8), <b>dpkg</b>(8)</p>
+<b>apt-get</b>(8), <b>dpkg</b>(8)</p>
 
 <h2>AUTHORS
 <a name="AUTHORS"></a>
