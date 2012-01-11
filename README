@@ -5,7 +5,7 @@ Upgrade Debian every day. Run as
 
 updeb -s
 
-for the first time and uncomment /etc/cron.d/updeb. Then You will get You system
+for the first time and uncomment /etc/cron.d/updeb. Then You will get Your system
 up today always with upgrade report.
 
  -- Vladimir Stavrinov <vstavrinov@gmail.com>  Tue, 29 Nov 2011 18:08:04 +0400
