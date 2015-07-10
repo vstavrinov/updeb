@@ -1,3 +1,9 @@
+updeb (1.1.1) unstable; urgency=medium
+
+  * Updated manual page for new rollback features. Updated cron job for new code structure.
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Fri, 10 Jul 2015 10:21:54 +0300
+
 updeb (1.1.0) unstable; urgency=medium
 
   * .
