@@ -5,13 +5,18 @@ SYNOPSIS
 updeb [-ursmdhvV] [-c CONFIG] [-t MAILTO]
 
 DESCRIPTION
-This script will upgrade running debian system and mail the result: what was upgraded, from what version to what and for what period of time. The actual upgrade will be done only if all index files will be successfully updated, all required packages will be successfully downloaded, and finally only if the simulating of upgrade will be finished without errors. All old configuration files are preserved and can be compared to new *.dpkg-dist files. If any error occur, this will be mailed to You. It is intended to be used as cron job.
+This script will upgrade running debian system and mail the result: what was upgraded, from what version to what and for what period of time. The actual upgrade will be done only if all index files will be successfully updated, all required packages will be successfully downloaded, and finally only if the simulating of upgrade will be finished without errors. All old configuration files are preserved and can be compared to new *.dpkg-dist files. If any error occur, this will be mailed to You. It is intended to be used as cron job. 
 
 OPTIONS
 	-u  Upgrade debian system
 	-r  Debian upgrade report to stdout only if system changed since last upgrade
 	-m  Mail upgrade report
-	-s  Update the list of packages versions (called "snapshot"). This is snapshot what current state of the system is compared to. Its time stamp is the start of the report period. Note: if this option supplied alone with -u (i.e. upgrade) the actual update of the snapshot will be done only if the option -m (mail to) is present too and the system changed, i.e. at least one package was upgraded, installed or removed. This is not true for stand alone option: i.e. updeb -s will update snapshot in any way
+	-s  Update the list of packages versions (called "snapshot"). This is snapshot what current state of the system is compared to. Its time stamp is the start of the report period. Note: if this option supplied alone with -u (i.e. upgrade) the actual update of the snapshot will be done only if the option -m (mail to) is present too and the system changed, i.e. at least one package was upgraded, installed or removed. This is not true for stand alone option: i.e. updeb -s will update snapshot in any way. The auto roll back and health check features allows to get system in old state if upgrade or test fails.
+	-S  Show available snapshots in POINT in time.
+	-B POINT  List what to do to roll back to POINT in time (see -S option for POINT).
+	-b POINT  Roll back to POINT in time (see -S option for POINT).
+	-a  Auto rollback if upgrade fails
+	-e  Health check and auto rollback if it fails. You sould define test commands in healthcheck function.
 	-c CONFIG  Set the configuration file. Default /etc/updeb/updebrc
 	-t MAILTO  Recipient of upgrade report. Default root
 	-v  Verbose mode. This imply the verbosity of log file only, but not report
