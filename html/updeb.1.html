@@ -1,5 +1,5 @@
-<!-- Creator     : groff version 1.21 -->
-<!-- CreationDate: Tue Dec 20 10:35:56 2011 -->
+<!-- Creator     : groff version 1.22.3 -->
+<!-- CreationDate: Fri Jul 10 10:34:06 2015 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -125,7 +125,57 @@ will be done only if the option <b>-m</b> (mail to) is
 present too and the system changed, i.e. at least one
 package was upgraded, installed or removed. This is not true
 for stand alone option: i.e. <b>updeb -s</b> will update
-snapshot in any way</p></td></tr>
+snapshot in any way. The auto roll back and health check
+features allows to get system in old state if upgrade or
+test fails.</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>-S</b></p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Show available snapshots in POINT in time.</p></td></tr>
+</table>
+
+<p style="margin-left:11%;"><b>-B POINT</b></p>
+
+<p style="margin-left:22%;">List what to do to roll back to
+POINT in time (see <b>-S</b> option for POINT).</p>
+
+<p style="margin-left:11%;"><b>-b POINT</b></p>
+
+<p style="margin-left:22%;">Roll back to POINT in time (see
+<b>-S</b> option for POINT).</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>-a</b></p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Auto rollback if upgrade fails</p></td></tr>
+<tr valign="top" align="left">
+<td width="11%"></td>
+<td width="3%">
+
+
+<p><b>-e</b></p></td>
+<td width="8%"></td>
+<td width="78%">
+
+
+<p>Health check and auto rollback if it fails. You sould
+define test commands in healthcheck function.</p></td></tr>
 </table>
 
 <p style="margin-left:11%;"><b>-c</b> <i>CONFIG</i></p>
