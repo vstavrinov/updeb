@@ -59,6 +59,13 @@ preupgrade ()
 	"
 }
 
+# Health check function being called after upgrade if option -e is set. Put
+# here any commands to test Your application. If it fails rollback function
+# will be started.
+
+healthcheck () { :; }
+
+
 # Cleaning download cache. Possible values: "clean" or "autoclean".
 # "clean" is more radical.
 CLEAN=autoclean

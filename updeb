@@ -1,86 +1,166 @@
-#!/bin/bash
-
+#!/bin/bash 
 # Non-interactive upgrade debian system.
 
 exec -a updeb < /dev/null
 
-VERSION=1.0.3
+VERSION=1.1.0
 
-set +x +v 
-
+LAST="last"
 HELP="
 NAME
        updeb - Non-interactive UPgrade DEBian system
 
 SYNOPSIS
-       updeb [ -ursmdvVh ] [ -c CONFIG ] [ -t MAILTO ]
+       updeb  -u | -r POINT | -b POINT | -B POINT | -s | -S
+	       [ -mdvqVh ] [ -c CONFIG ] [ -t MAILTO ]
 
 DESCRIPTION
        Non-interactivly upgrade running debian system, output
        and/or mail report, update list of packages versions.
 
 OPTIONS
-       -u     Upgrade debian system
+       -u     Upgrade debian system.
 
-       -r     Debian upgrade report
+       -r POINT
+              report from POINT in time or '$LAST'
 
-       -m     Mail upgrade report
+       -m     Mail upgrade report.
 
-       -s     update list of packages versions.
+       -s     update last (current) list of packages (snapshot).
+
+       -S     Show available snapshots.
+
+       -B POINT
+              List what to do to roll back to POINT in time.
+
+       -b POINT
+              Roll back to POINT in time.
+
+       -a     Auto rollback if upgrade fails
+
+       -e     Health check and auto rollback if it fails.
 
        -c CONFIG
               Set the configuration file.
 
        -t MAILTO
-              E-mail report send to
+              E-mail report send to.
 
-       -V     Output updeb version
+       -V     Output updeb version.
 
        -v     Verbose mode.
 
+       -q     Quiet mode.
+
        -d     Debug mode.
 
-       -h     Help
+       -h     Help.
 "
 [ $# -eq 0 ] && echo "$HELP" && exit
 
-UPGRADE=false
-REPORT=false
 SEND=false
-UPDATE=false
 DEBUG=false
 
 postupgrade () { :; }
 preupgrade () { :; }
+healthcheck () { :; }
+
+# Set and source cofiguration file.
 CONFIG=${CONFIG:=/etc/updeb/updebrc}
 [ -f "$CONFIG" ] && . $CONFIG
 
+# Get command line options.
 OPTERR=0
-while getopts c:t:ursmdvVh opt; do
+while getopts B:b:c:t:r:aeusSmdvqVh opt; do
    case $opt in
       c)
+	# Set config file.
         CONFIG=$OPTARG
         [ -f "$CONFIG" ] && . $CONFIG
         ;;
       t)
+	# Set addres to mail report to.
         MAILTO=$OPTARG
         ;;
       u)
-        UPGRADE=true
+	# Set upgrade task.
+	if [ -n "$EXCLUSIVE" ]; then 
+		echo "$EXCLUSIVE and $opt are mutually exclusive options."
+		exit
+	fi
+	EXCLUSIVE=$opt
+	TASK="upgrade"
+	;;
+      b)
+	# Set rollabck task.
+	if [ -n "$EXCLUSIVE" ]; then 
+		echo "$EXCLUSIVE and $opt are mutually exclusive options."
+		exit
+	fi
+	EXCLUSIVE=$opt
+        POINT=$OPTARG
+	TASK="rollback"
+	;;
+      B)
+	# Set list task.
+	if [ -n "$EXCLUSIVE" ]; then 
+		echo "$EXCLUSIVE and $opt are mutually exclusive options."
+		exit
+	fi
+	EXCLUSIVE=$opt
+	TASK="list"
+        POINT=$OPTARG
+	;;
+      a)
+	# Set roll back option.
+        AUTO=true
+	;;
+      e)
+	# Set roll back option.
+        HEALTHCHECK=true
 	;;
       r)
-        REPORT=true
+	# Set report task.
+	if [ -n "$EXCLUSIVE" ]; then 
+		echo "$EXCLUSIVE and $opt are mutually exclusive options."
+		exit
+	fi
+	EXCLUSIVE=$opt
+	TASK="report"
+        POINT=$OPTARG
 	;;
       s)
-        UPDATE=true
+	# Set update task.
+	if [ -n "$EXCLUSIVE" ]; then 
+		echo "$EXCLUSIVE and $opt are mutually exclusive options."
+		exit
+	fi
+	EXCLUSIVE=$opt
+	TASK="update"
+	;;
+      S)
+	# Set show task.
+	if [ -n "$EXCLUSIVE" ]; then 
+		echo "$EXCLUSIVE and $opt are mutually exclusive options."
+		exit
+	fi
+	EXCLUSIVE=$opt
+	TASK="show"
 	;;
       m)
+	# Set mail option.
         SEND=true
 	;;
       v)
-        VERBOSE="-V -q=1"
+	# Set verbose mode.
+        VERBOSE="-v"
+	;;
+      q)
+	# Set quiet mode.
+        unset VERBOSE
 	;;
       d)
+	# Set debug mode.
         set -x -v
 	DEBUG=true
 	;;
@@ -101,40 +181,67 @@ done
 shift  $[$OPTIND - 1]
 OPTION=${1+$@}
 
+# Set non interactive mode
 PRE="/usr/sbin/dpkg-preconfigure --apt -fNoninteractive || true"
 
+# Set dpkg options
 DPKG="
 -o Dpkg::Options::=--force-confdef
 -o Dpkg::Options::=--force-confold
 -o DPkg::Pre-Install-Pkgs::="
 
 
-VERBOSE="${VERBOSE:="-V -q=1"}"
+CACHE=/var/cache/apt/archives
+SNAPSHOT=http://snapshot.debian.org
 DIST=${DIST:=dist-upgrade}
 AUTOREMOVE=${AUTOREMOVE:="false"}
 CLEAN=${CLEAN:=autoclean}
 LOG=${LOG:=/var/log/updeb.log}
-SNAPSHOT=${SNAPSHOT:=/var/lib/updeb/snapshot}
+BASE=${BASE:=/var/lib/updeb}
 DEBIAN_FRONTEND=noninteractive
 APT=${APT:=aptitude}
 
-#export DPKG PRE VERBOSE DIST CLEAN LOG SNAPSHOT DIFF DEBIAN_FRONTEND
 export DEBIAN_FRONTEND
 export UCF_FORCE_CONFFOLD=1
 
-[ -d "$(dirname $SNAPSHOT)" ] || mkdir -p $(dirname $SNAPSHOT)
-[ -f $SNAPSHOT ] || touch $SNAPSHOT
+[ -d "$BASE" ] || mkdir -p $BASE
+[ -f $BASE/$LAST ] || touch $BASE/$LAST
+
+get_package ()
+{
+	# Get URL to download package from.
+	PKG_VER=${2/+/%2B}
+	[ -z "$3" ] && return 1
+	PAGE=$(wget -qO - $SNAPSHOT/binary/$1/ |
+		grep -iPo "<a href=\"\K[^\"]*/${PKG_VER/:/%3A}/[^\"]*")
+	URL=$(wget -qO - $SNAPSHOT/binary/$1/$PAGE |
+		grep -iPo "<a href=\"\K/archive/debian/.*/${1}_${PKG_VER#*:}_${3}.deb")
+	if [ -n "$URL" ]; then
+		if HEAD $SNAPSHOT/$URL > /dev/null; then
+			echo ${SNAPSHOT}${URL}
+			if [ "$TASK" = "rollback" ]; then
+				wget ${VERBOSE:--q} -O ${CACHE}/${1}_${2/:/%3a}_${3}.deb $SNAPSHOT/$URL ||
+				return 1
+			fi
+		fi
+	else
+		return 1
+	fi
+}
 
 snapshot ()
 {
-      dpkg-query -W  --showformat="\${Package;}\t\${Version;}\t\${Status;-10}\n" |
+      # Get current packages list (system state)
+      dpkg-query -W  --showformat="\${Package;}\t\${Version;}\t\${Status;-10}\t\${Architecture;}\n" |
       grep "install ok"
 }
 
 get_diff ()
 {
+	# Get difference in current and point in time states of system.
+	: ${POINT:=$LAST}
 	[ -z "$DIFF" ] && 
-	DIFF="$(snapshot | sdiff -s $SNAPSHOT - |
+	DIFF="$(snapshot | sdiff -s $BASE/$POINT - |
 	awk '
 	{
 	  if ($5 == "|") 
@@ -148,28 +255,31 @@ get_diff ()
 
 report ()
 {
-   get_diff  
-   [ -z "$DIFF" ] && exit
+   # Get upgrade report.
+   get_diff
+   [ -z "$DIFF" ] && return
    echo "
 	   DEBIAN UPGRADE REPORT
 
-	   SINCE    $(date -r $SNAPSHOT)
+	   SINCE    $(date -r $BASE/$POINT)
 	   TILL     $(date)
    "
-   printf %-28s%-26s%-26s PACKAGE "OLD VERSION" "NEW VERSION"
+   printf %-28s%-26s%-26s PACKAGEE "OLD VERSION" "NEW VERSION"
    echo '
 _______________________________________________________________________________
    '
    echo "$DIFF"
 }
 
-dupgrade ()
+do_upgrade ()
 {
+      # Upgrade system
+      eval ${VERBOSE:+echo "Do upgrade"}
       $APT -q update &&
-      $APT $PARAMETERS $VERBOSE -d -y $DIST &&
-      $APT $PARAMETERS $VERBOSE -d -y install $INSTALL &&
-      $APT $DPKG"$PRE" $PARAMETERS $VERBOSE -y $DIST &&
-      $APT $DPKG"$PRE" $PARAMETERS $VERBOSE -y install $INSTALL &&
+      $APT $PARAMETERS ${VERBOSE:+-V -q=1} -d -y $DIST &&
+      $APT $PARAMETERS ${VERBOSE:+-V -q=1} -d -y install $INSTALL &&
+      $APT $DPKG"$PRE" $PARAMETERS ${VERBOSE:+-V -q=1} -y $DIST &&
+      $APT $DPKG"$PRE" $PARAMETERS ${VERBOSE:+-V -q=1} -y install $INSTALL &&
       dpkg -D1 --force-confdef --force-confold --configure -a
       RETURN=$?
       $DEBUG || set +x
@@ -180,60 +290,198 @@ dupgrade ()
       return $RETURN
 }
 
-$UPGRADE &&
-{  
-   echo -e "\\n\\t---=== START  $(date) ===---\\n"
-   preupgrade
-   $APT $VERBOSE -y $CLEAN 
-   {
-     dupgrade ||
-     {
-       set -x
-       $APT -y -f install
-       dpkg -D1 --force-confdef --force-confold --configure -a
-       dupgrade
-     }
-   } ||
-   { 
-
-       $SEND &&
-       tail -20 $LOG |
-       mail -s "Debian upgrade ERROR for $(date +%F) at $HOSTNAME" $MAILTO
-       postupgrade
-       echo -e "\\n\\t---=== FINISH with errors (exit status $RETURN) $(date) ===---\\n"
-       exit
-   }
-} >> $LOG 2>&1
-
-{ $REPORT || $SEND || $UPGRADE; } &&
+show ()
 {
-   [ -f $SNAPSHOT ] ||
-      { 
-	 echo "Snapshot $SNAPSHOT doesn't exist, exiting."
-	 $UPGRADE && postupgrade >> $LOG
-	 exit
-      }
-      get_diff
+	# Show snapshots list
+	find $BASE  -regextype posix-egrep -regex "$BASE/[0-9]{14}" -printf "%f\n" |
+	sort -n
+	file $BASE/$LAST
 }
 
-get_diff
-[ -n "$DIFF" ] && $UPGRADE
-
-$REPORT && report
-
-$SEND && [ -n "$DIFF" ] && report |
-mail -s "Debian upgrade report for $(date +%F) at $HOSTNAME" $MAILTO
-
-{ $UPDATE && { ! $UPGRADE || { $SEND && [ -n "$DIFF" ] ; } } } &&
+update ()
 {
-   snapshot > $SNAPSHOT
+   # Update snapshots set with current system state.
+   NAME=$(date "+%Y%m%d%H%M%S")
+   snapshot > $BASE/$NAME 
+   if diff -q $BASE/$NAME $BASE/$LAST; then
+	   rm ${VERBOSE:+-v} $BASE/$NAME 
+	   eval ${VERBOSE:+echo "Not need to update snapshot."}
+   else
+	   rm ${VERBOSE:+-v} $BASE/$LAST
+	   ln -s $NAME $BASE/$LAST
+	   eval ${VERBOSE:+echo "Snapshot updated."}
+   fi
 } 
 
-$UPGRADE && 
+get_rollback ()
 {
-   postupgrade
-   echo "
-	---=== FINISH  $(date) ===---
-	"
-} >> $LOG 2>&1
-exit 0
+	# Compare last and target snapshots and find packages/versions to install. 
+	eval ${VERBOSE:+echo "Get rollback"}
+	update
+	while read; do 
+		# See if package version exsists in last (currsent) snapshot (system)
+		if ! grep -q "$REPLY" $BASE/$LAST; then
+			# Get package name, version and arch as array.
+			PACKAGE=(${REPLY})
+			# Build package file name
+			FILE="${PACKAGE[0]}_${PACKAGE[1]/:/%3a}_${PACKAGE[4]}.deb"
+			ROLLBACK="${ROLLBACK}${FILE}"$'\n'
+			if ! [ -f $CACHE/$FILE ]; then
+				DOWNLOAD="${DOWNLOAD}$(
+					get_package ${PACKAGE[0]} ${PACKAGE[1]} ${PACKAGE[4]}
+					)"$'\n' ||
+				MISSING="${MISSING}${FILE}"$'\n'
+				
+			fi
+		fi
+	done < $BASE/$POINT
+}
+
+get_remove ()
+{
+	# Get removal packges list.
+	eval ${VERBOSE:+echo "Get remove"}
+	while read; do 
+		PACKAGE=(${REPLY})
+		if ! grep -qE "^${PACKAGE[0]//+/\\+}"$'\t' $BASE/$POINT; then
+			REMOVE="${REMOVE}${PACKAGE[0]}"$'\n'
+		fi
+	done < $BASE/$LAST
+}
+
+do_install ()
+{
+	# Install rollback packages.
+	eval ${VERBOSE:+echo "Do install"}
+	if [ -n "$ROLLBACK" ]; then
+		cd $CACHE
+		dpkg --force-depends -i $ROLLBACK
+		cd -
+	fi
+}
+
+do_remove ()
+{
+	# Remove packages.
+	eval ${VERBOSE:+echo "Do remove"}
+	if [ -n "$REMOVE" ]; then
+		cd $CACHE
+		dpkg --force-depends -r $REMOVE
+		cd -
+	fi
+}
+
+rollback ()
+{
+	get_rollback
+	get_remove
+	eval ${VERBOSE:+list}
+	do_install
+	do_remove
+}
+
+auto_rollback ()
+{
+	       VERBOSE="-v"
+	       POINT=$CURRENT
+	       if rollback; then
+		       echo -e "\\n\\t---=== ROLLED BACK TO $POINT $(date) ===---\\n"
+	       else
+		       echo -e "\\n\\t---=== ROLLED BACK TO $POINT FAILED! $(date) ===---\\n"
+	       fi
+	       $SEND &&
+	       tail -20 $LOG |
+	       mail -s "Debian ROLLED BACK to $POINT at $HOSTNAME" $MAILTO
+	       exit
+}
+
+upgrade ()
+{
+	   # Execute upgrade task.
+	   exec >> $LOG 2>&1
+	   echo -e "\\n\\t---=== START  $(date) ===---\\n"
+	   CURRENT=$(date "+%Y%m%d%H%M%S")
+	   snapshot > $BASE/$CURRENT
+	   preupgrade
+	   $APT ${VERBOSE:+-V -q=1} -y $CLEAN 
+	   {
+	     do_upgrade ||
+	     {
+	       set -x
+	       $APT -y -f install
+	       dpkg -D1 --force-confdef --force-confold --configure -a
+	       do_upgrade
+	     }
+	   } ||
+	   { 
+	       echo -e "\\n\\t---=== FINISH with errors (exit status $RETURN) $(date) ===---\\n"
+	       if eval ${AUTO:=false}; then
+		       auto_rollback
+	       else
+		       $SEND &&
+		       tail -20 $LOG |
+		       mail -s "Debian upgrade FAILED at $(date +%F) at $HOSTNAME" $MAILTO
+	       fi
+	       postupgrade
+	   }
+	       if ! eval ${HEALTHCHECK:=false}; then
+			$SEND && [ -n "$DIFF" ] && report |
+			mail -s "Debian upgrade report for $(date +%F) at $HOSTNAME" $MAILTO
+			update
+			postupgrade
+			echo "
+			---=== FINISH  $(date) ===---
+			"
+	       elif ! healthcheck; then
+		       auto_rollback
+	       fi
+
+}
+
+list ()
+{
+	# Show what will be done for rollback.
+	if [ -n "$ROLLBACK" ]; then
+		echo "Packages files to be installed:"
+		echo "$ROLLBACK"
+	fi
+	if [ -n "$DOWNLOAD" ]; then
+		echo
+		echo "URLs to download from:"
+		echo "$DOWNLOAD"
+	fi
+	if [ -n "$MISSING" ]; then
+		echo
+		echo "Missing packages files:"
+		echo "$MISSING"
+	fi
+	if [ -n "$REMOVE" ]; then
+		echo "Packages to be removed:"
+		echo "$REMOVE"
+	fi
+}
+
+case $TASK in 
+	upgrade)
+		eval ${VERBOSE:+echo "Start upgrade."}
+		upgrade
+	;;
+	rollback)
+		eval ${VERBOSE:+echo "Start rollback"}
+		robllback
+	;;
+	report)
+		report
+	;;
+	show)
+		show
+	;;
+	list)
+		get_rollback
+		get_remove
+		list
+	;;
+	update)
+		update
+	;;
+esac
