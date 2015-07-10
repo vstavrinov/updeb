@@ -46,6 +46,10 @@ preupgrade () { :; }
 Use this function to define pre-upgrade actions, for example mount proc fs when working in chroot.
 .TP
 .B
+\fBhealthcheck\fP() { :; }
+Health check function being called after upgrade if option \fB-e\fP is set. Put here any commands to test Your application. If it fails rollback function will be started.
+.TP
+.B
 LOG=/var/log/updeb.log
 log file
 .TP

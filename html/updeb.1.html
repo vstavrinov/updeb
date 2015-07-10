@@ -1,5 +1,5 @@
 <!-- Creator     : groff version 1.22.3 -->
-<!-- CreationDate: Fri Jul 10 10:34:06 2015 -->
+<!-- CreationDate: Fri Jul 10 14:18:28 2015 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -63,7 +63,9 @@ will be successfully downloaded, and finally only if the
 simulating of upgrade will be finished without errors. All
 old configuration files are preserved and can be compared to
 new *.dpkg-dist files. If any error occur, this will be
-mailed to You. It is intended to be used as cron job.</p>
+mailed to You. The auto roll back and health check features
+allows to get system in old state if upgrade or test fails.
+It is intended to be used as cron job.</p>
 
 <h2>OPTIONS
 <a name="OPTIONS"></a>
@@ -125,9 +127,7 @@ will be done only if the option <b>-m</b> (mail to) is
 present too and the system changed, i.e. at least one
 package was upgraded, installed or removed. This is not true
 for stand alone option: i.e. <b>updeb -s</b> will update
-snapshot in any way. The auto roll back and health check
-features allows to get system in old state if upgrade or
-test fails.</p></td></tr>
+snapshot in any way.</p></td></tr>
 <tr valign="top" align="left">
 <td width="11%"></td>
 <td width="3%">

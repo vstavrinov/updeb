@@ -13,7 +13,7 @@
 .fam T
 .fi
 .SH DESCRIPTION
-This script will upgrade running debian system and mail the result: what was upgraded, from what version to what and for what period of time. The actual upgrade will be done only if all index files will be successfully updated, all required packages will be successfully downloaded, and finally only if the simulating of upgrade will be finished without errors. All old configuration files are preserved and can be compared to new *.dpkg-dist files. If any error occur, this will be mailed to You. It is intended to be used as cron job. 
+This script will upgrade running debian system and mail the result: what was upgraded, from what version to what and for what period of time. The actual upgrade will be done only if all index files will be successfully updated, all required packages will be successfully downloaded, and finally only if the simulating of upgrade will be finished without errors. All old configuration files are preserved and can be compared to new *.dpkg-dist files. If any error occur, this will be mailed to You. The auto roll back and health check features allows to get system in old state if upgrade or test fails. It is intended to be used as cron job. 
 .SH OPTIONS
 .TP
 .B
@@ -30,7 +30,7 @@ Mail upgrade report
 .TP
 .B
 \fB-s\fP
-Update the list of packages versions (called "snapshot"). This is snapshot what current state of the system is compared to. Its time stamp is the start of the report period. Note: if this option supplied alone with \fB-u\fP (i.e. upgrade) the actual update of the snapshot will be done only if the option \fB-m\fP (mail to) is present too and the system changed, i.e. at least one package was upgraded, installed or removed. This is not true for stand alone option: i.e. \fBupdeb\fP \fB-s\fP will update snapshot in any way. The auto roll back and health check features allows to get system in old state if upgrade or test fails.
+Update the list of packages versions (called "snapshot"). This is snapshot what current state of the system is compared to. Its time stamp is the start of the report period. Note: if this option supplied alone with \fB-u\fP (i.e. upgrade) the actual update of the snapshot will be done only if the option \fB-m\fP (mail to) is present too and the system changed, i.e. at least one package was upgraded, installed or removed. This is not true for stand alone option: i.e. \fBupdeb\fP \fB-s\fP will update snapshot in any way.
 .TP
 .B
 \fB-S\fP
