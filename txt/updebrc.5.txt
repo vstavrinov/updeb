@@ -17,6 +17,7 @@ AUTOREMOVE=true  AUTOREMOVE is used to remove packages that were automatically i
 INSTALL=""  Space separated list of packages to be installed before upgrade.
 postupgrade () { :; }  Use this function to define post-upgrade actions, for example restart some services. To find upgraded packages use DIFF variable.
 preupgrade () { :; }  Use this function to define pre-upgrade actions, for example mount proc fs when working in chroot.
+healthcheck() { :; }  Health check function being called after upgrade if option -e is set. Put here any commands to test Your application. If it fails rollback function will be started.
 LOG=/var/log/updeb.log  log file
 MAILTO=root  To whom mail report
 
