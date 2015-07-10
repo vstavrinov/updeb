@@ -12,11 +12,11 @@ Package: updeb
 Architecture: all
 Depends: ${misc:Depends}, mailutils, aptitude | apt, debtags
 Description: Non-interactive upgrade Debian system
- This script will upgrade running Debian system and email the
- result: what was upgraded, from what version to what and
- for what period of time. The actual upgrade will be done only if
- all index files will be successfully updated, all required
- packages will be successfully downloaded, and finally only if the
- simulating of upgrade will be finished without errors. All old
- configuration files are preserved and can be compared with new
- *.dpkg-dist files. It is intended to be used as cron job. 
+ This script will upgrade running Debian system and email the result: what was
+ upgraded, from what version to what and for what period of time. The actual
+ upgrade will be done only if all index files will be successfully updated, all
+ required packages will be successfully downloaded, and finally only if the
+ simulating of upgrade will be finished without errors. All old configuration
+ files are preserved and can be compared with new *.dpkg-dist files. The auto
+ roll back and health check features allows to get system in old state if
+ upgrade or test fails. It is intended to be used as cron job. 
