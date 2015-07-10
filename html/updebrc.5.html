@@ -1,5 +1,5 @@
 <!-- Creator     : groff version 1.22.3 -->
-<!-- CreationDate: Fri Jul 10 10:34:06 2015 -->
+<!-- CreationDate: Fri Jul 10 14:18:28 2015 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -117,6 +117,13 @@ find upgraded packages use DIFF variable.</p>
 <p style="margin-left:22%;">Use this function to define
 pre-upgrade actions, for example mount proc fs when working
 in chroot.</p>
+
+<p style="margin-left:11%;"><b>healthcheck() { :; }</b></p>
+
+<p style="margin-left:22%;">Health check function being
+called after upgrade if option <b>-e</b> is set. Put here
+any commands to test Your application. If it fails rollback
+function will be started.</p>
 
 
 <p style="margin-left:11%;"><b>LOG=/var/log/updeb.log</b></p>
