@@ -3,7 +3,7 @@
 
 exec -a updeb < /dev/null
 
-VERSION=1.1.4
+VERSION=1.1.5
 
 LAST="last"
 HELP="
@@ -244,9 +244,9 @@ get_diff ()
 	DIFF="$(snapshot | sdiff -s $BASE/$POINT - |
 	awk '
 	{
-	  if ($5 == "|") 
-	    printf "%-28s %-26s %-26s\n",$1,$2,$7; 
-	  if ($5 == "<") 
+	  if ($6 == "|") 
+	    printf "%-28s %-26s %-26s\n",$1,$2,$8; 
+	  if ($6 == "<") 
 	    printf "%-28s %-26s %-26s\n",$1,$2,"removed"; 
 	  if ($1 == ">") 
 	    printf "%-28s %-26s %-26s\n",$2,"installed",$3
