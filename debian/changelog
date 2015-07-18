@@ -1,3 +1,9 @@
+updeb (1.1.5) unstable; urgency=medium
+
+  * Bug fix: in get_diff wrong field number.
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Sat, 18 Jul 2015 18:41:49 +0300
+
 updeb (1.1.4) unstable; urgency=medium
 
   * Update package description.
