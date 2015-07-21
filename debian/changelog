@@ -1,3 +1,9 @@
+updeb (1.1.6) unstable; urgency=medium
+
+  * Bug fix: unset VERBOSE var. Bug fix: typo in rollabck()
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Tue, 21 Jul 2015 16:51:53 +0300
+
 updeb (1.1.5) unstable; urgency=medium
 
   * Bug fix: in get_diff wrong field number.
