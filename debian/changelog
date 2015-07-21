@@ -1,6 +1,7 @@
 updeb (1.1.6) unstable; urgency=medium
 
-  * Bug fix: unset VERBOSE var. Bug fix: typo in rollabck()
+  * Bug fix: unset VERBOSE var. 
+  * Bug fix: typo in rollabck()
 
  -- Vladimir Stavrinov <vstavrinov@gmail.com>  Tue, 21 Jul 2015 16:51:53 +0300
 
