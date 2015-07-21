@@ -3,7 +3,7 @@
 
 exec -a updeb < /dev/null
 
-VERSION=1.1.5
+VERSION=1.1.7
 
 LAST="last"
 HELP="
@@ -468,7 +468,7 @@ case $TASK in
 	;;
 	rollback)
 		eval ${VERBOSE:+echo "Start rollback"}
-		robllback
+		rollback
 	;;
 	report)
 		report
