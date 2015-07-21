@@ -12,10 +12,6 @@ SNAPSHOT=/var/lib/updeb/snapshot
 # APT - choose software packages tool: apt-get or aptitude
 APT=aptitude
 
-# Define what details will be reported to log file
-# See man apt-get for details.
-VERBOSE="-V -q=1"
-
 # Any other apt-get command line options. For example
 # --allow-unauthenticated with apt-get or
 # --allow-untrusted with aptitude to use archive without gpg signature.

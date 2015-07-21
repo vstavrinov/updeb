@@ -9,7 +9,6 @@ These shell variables are sourced by updeb script. You can redefine
 all of them in the file /etc/updeb/updebrc.local
 
 SNAPSHOT=/var/lib/updeb/snapshot  Where to store packages versions list
-VERBOSE="−V −q=1 −u"  Define what details write to log file. See man apt−get for details.
 PARAMETERS="−−allow-unauthenticated"  Any other apt-get command line options
 DIST=dist−upgrade  Upgrade command. Possible values: "upgrade" or "dist−upgrade". "upgrade" is more conservative.
 CLEAN=autoclean  Cleaning download cache. Possible values: "clean" or "autoclean". "clean" is more radical.
