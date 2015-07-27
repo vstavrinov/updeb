@@ -3,7 +3,7 @@
 
 exec -a updeb < /dev/null
 
-VERSION=1.1.6
+VERSION=1.1.7
 
 LAST="last"
 HELP="
@@ -240,7 +240,6 @@ get_diff ()
 {
 	# Get difference in current and point in time states of system.
 	: ${POINT:=$LAST}
-	[ -z "$DIFF" ] && 
 	DIFF="$(snapshot | sdiff -s $BASE/$POINT - |
 	awk '
 	{
@@ -285,7 +284,6 @@ do_upgrade ()
       $DEBUG || set +x
       if [ $RETURN -eq 0 ]; then
 	      $AUTOREMOVE && $APT -y autoremove
-	      get_diff
       fi
       return $RETURN
 }
@@ -425,8 +423,8 @@ upgrade ()
 	       postupgrade
 	   }
 	       if ! eval ${HEALTHCHECK:=false}; then
-			$SEND && [ -n "$DIFF" ] && report |
-			mail -s "Debian upgrade report for $(date +%F) at $HOSTNAME" $MAILTO
+			$SEND && report |
+			mail -Es "Debian upgrade report for $(date +%F) at $HOSTNAME" $MAILTO
 			update
 			postupgrade
 			echo "
