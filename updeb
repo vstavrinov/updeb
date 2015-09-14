@@ -3,7 +3,7 @@
 
 exec -a updeb < /dev/null
 
-VERSION=1.1.7
+VERSION=1.1.8
 
 LAST="last"
 HELP="
@@ -353,7 +353,7 @@ do_install ()
 	eval ${VERBOSE:+echo "Do install"}
 	if [ -n "$ROLLBACK" ]; then
 		cd $CACHE
-		dpkg --force-depends -i $ROLLBACK
+		dpkg --force-all -i $ROLLBACK
 		cd -
 	fi
 }
@@ -364,7 +364,7 @@ do_remove ()
 	eval ${VERBOSE:+echo "Do remove"}
 	if [ -n "$REMOVE" ]; then
 		cd $CACHE
-		dpkg --force-depends -r $REMOVE
+		dpkg --force-all -r $REMOVE
 		cd -
 	fi
 }
@@ -469,7 +469,13 @@ case $TASK in
 		rollback
 	;;
 	report)
-		report
+		if $SEND; then
+			report |
+			mail -Es "Debian upgrade report for $(date +%F) at $HOSTNAME" $MAILTO
+			update
+		else
+			report
+		fi
 	;;
 	show)
 		show
