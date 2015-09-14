@@ -10,7 +10,8 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 SNAPSHOT=/var/lib/updeb/snapshot
 
 # APT - choose software packages tool: apt-get or aptitude
-APT=aptitude
+#APT=aptitude
+APT=apt-get
 
 # Any other apt-get command line options. For example
 # --allow-unauthenticated with apt-get or
@@ -21,8 +22,8 @@ PARAMETERS=""
 # Upgrade command. Possible values: "upgrade" or "dist-upgrade"
 # for apt-get and full-upgrade for aptitude.
 # "upgrade" is more conservative.
-# DIST=dist-upgrade
-DIST=full-upgrade
+# DIST=full-upgrade
+DIST=dist-upgrade
 
 # AUTOREMOVE is used to remove packages that were automatically installed to
 # satisfy dependencies for some package and that are no more needed.
