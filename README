@@ -5,8 +5,7 @@ Upgrade Debian every day. Run as
 
 updeb -s
 
-for the first time and uncomment /etc/cron.d/updeb. Then You will get Your system
-up today always with upgrade report.
-
- -- Vladimir Stavrinov <vstavrinov@gmail.com>  Tue, 29 Nov 2011 18:08:04 +0400
+for the first time and uncomment /etc/cron.d/updeb. Then You will keep Your
+system up-to-date always with detailed upgrade report. It will rolls back on any
+error. And You can define the packages to be protected from deletion.
 

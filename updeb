@@ -3,7 +3,7 @@
 
 exec -a updeb < /dev/null
 
-VERSION=1.1.9
+VERSION=1.1.10
 
 LAST="last"
 HELP="
@@ -182,13 +182,14 @@ shift  $[$OPTIND - 1]
 OPTION=${1+$@}
 
 # Set non interactive mode
-PRE="/usr/sbin/dpkg-preconfigure --apt -fNoninteractive || true"
 
 # Set dpkg options
 DPKG="
 -o Dpkg::Options::=--force-confdef
 -o Dpkg::Options::=--force-confold
--o DPkg::Pre-Install-Pkgs::="
+-o DPkg::Pre-Install-Pkgs::=\
+'dpkg-preconfigure --apt -fNoninteractive -phigh || true'
+"
 
 
 CACHE=/var/cache/apt/archives
@@ -270,15 +271,65 @@ _______________________________________________________________________________
    echo "$DIFF"
 }
 
+protect ()
+# Don't allow delete protected packages.
+{
+	$DEBUG || set +x
+	if [ -z "$1" ]; then
+		echo "No command povided as argument. Aborting."
+		return 2
+	fi
+	$@ |
+	while read; do
+		if [ "$REPLY" = 'The following packages will be REMOVED:' ]; then
+			REMOVED=""
+			continue
+		fi
+		if [ -v REMOVED ]; then
+			if [ "${REPLY/#  /}" != "${REPLY}" ]; then
+				REMOVED="${REMOVED}${REPLY}"
+			else
+				break
+			fi
+		fi
+	done
+	if [ -n "$REMOVED" ] && [ -n "$PROTECT" ]; then
+		VICTIMS="$(
+			echo "$REMOVED" |
+			grep -Ewo "$(echo $PROTECT |
+				sed -r 's/[[:blank:]]+/|/g')"
+		)"
+		if [ -n "$VICTIMS" ]; then
+			echo "The following PROCTECTED packages will to be REMOVED:"
+			echo
+			printf "\t%s\n" $VICTIMS
+			echo
+			echo "Don't allow. Aborting..."
+			RETURN=1
+		else
+			RETURN=0
+		fi
+	else
+		RETURN=0
+	fi
+	set -x
+	return $RETURN
+}
+
 do_upgrade ()
 {
       # Upgrade system
       eval ${VERBOSE:+echo "Do upgrade"}
+      set -x
       $APT -q update &&
+      protect $APT $PARAMETERS ${VERBOSE:+-V -q=1} -y $DIST -s &&
       $APT $PARAMETERS ${VERBOSE:+-V -q=1} -d -y $DIST &&
-      $APT $PARAMETERS ${VERBOSE:+-V -q=1} -d -y install $INSTALL &&
-      $APT $DPKG"$PRE" $PARAMETERS ${VERBOSE:+-V -q=1} -y $DIST &&
-      $APT $DPKG"$PRE" $PARAMETERS ${VERBOSE:+-V -q=1} -y install $INSTALL &&
+      eval $APT ${DPKG} $PARAMETERS ${VERBOSE:+-V -q=1} -y $DIST &&
+      if [ -n "$INSTALL" ]; then
+	      protect $APT $PARAMETERS ${VERBOSE:+-V -q=1} -y install $INSTALL -s &&
+	      $APT $PARAMETERS ${VERBOSE:+-V -q=1} -d -y install $INSTALL &&
+	      eval $APT ${DPKG} $PARAMETERS ${VERBOSE:+-V -q=1} -y install $INSTALL
+      fi &&
       dpkg -D1 --force-confdef --force-confold --configure -a
       RETURN=$?
       $DEBUG || set +x
@@ -433,6 +484,7 @@ upgrade ()
 	       elif ! healthcheck; then
 		       auto_rollback
 	       fi
+	       rm ${VERBOSE:+-v} $BASE/$CURRENT
 
 }
 
