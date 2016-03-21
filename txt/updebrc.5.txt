@@ -14,6 +14,7 @@ DIST=dist−upgrade  Upgrade command. Possible values: "upgrade" or "dist−upgr
 CLEAN=autoclean  Cleaning download cache. Possible values: "clean" or "autoclean". "clean" is more radical.
 AUTOREMOVE=true  AUTOREMOVE is used to remove packages that were automatically installed to satisfy dependencies for some package and that are no more needed.  Possible values: "true" or "false"
 INSTALL=""  Space separated list of packages to be installed before upgrade.
+PROTECT=""  Space separated list of packages to be protected from deletion. In difference from "hold" action in dpkg this variable allows upgrade target packages.
 postupgrade () { :; }  Use this function to define post-upgrade actions, for example restart some services. To find upgraded packages use DIFF variable.
 preupgrade () { :; }  Use this function to define pre-upgrade actions, for example mount proc fs when working in chroot.
 healthcheck() { :; }  Health check function being called after upgrade if option -e is set. Put here any commands to test Your application. If it fails rollback function will be started.

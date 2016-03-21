@@ -4,9 +4,9 @@ Priority: optional
 Maintainer: Vladimir Stavrinov <vstavrinov@gmail.com>
 Build-Depends: debhelper (>= 8.0.0)
 Standards-Version: 3.9.2
-Homepage: http://sourceforge.net/projects/updeb/
-#Vcs-Git: git://git.debian.org/collab-maint/updeb.git
-#Vcs-Browser: http://git.debian.org/?p=collab-maint/updeb.git;a=summary
+Homepage: https://github.com/vstavrinov/updeb
+Vcs-Git: git://github.com/vstavrinov/updeb.git
+Vcs-Browser: https://github.com/vstavrinov/updeb
 
 Package: updeb
 Architecture: all

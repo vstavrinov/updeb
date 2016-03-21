@@ -77,6 +77,9 @@ MAILTO=root
 unset http_proxy
 # http_proxy=http://10.0.0.1:3128
 
+# Space separated list of packages to be protected from deletion.
+PROTECT=""
+
 # Local config. Create and copy into it what You need from here.
 # Then edit to customize Your settings.
 [ -f /etc/updeb/updebrc.local ] &&

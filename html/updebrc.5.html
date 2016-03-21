@@ -1,5 +1,5 @@
 <!-- Creator     : groff version 1.22.3 -->
-<!-- CreationDate: Sun Jul 19 12:14:23 2015 -->
+<!-- CreationDate: Mon Mar 21 13:33:17 2016 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -98,6 +98,14 @@ Possible values: &quot;true&quot; or &quot;false&quot;</p>
 
 <p style="margin-left:22%;">Space separated list of
 packages to be installed before upgrade.</p>
+
+
+<p style="margin-left:11%;"><b>PROTECT=&quot;&quot;</b></p>
+
+<p style="margin-left:22%;">Space separated list of
+packages to be protected from deletion. In difference from
+&quot;hold&quot; action in dpkg this variable allows upgrade
+target packages.</p>
 
 <p style="margin-left:11%;"><b>postupgrade () { :;
 }</b></p>
