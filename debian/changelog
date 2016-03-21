@@ -1,3 +1,9 @@
+updeb (1.1.10) unstable; urgency=medium
+
+  *   - Migrate to github   - Introduced PROTECT variable for the packages prohibited to delete.
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Mon, 21 Mar 2016 18:33:18 +0300
+
 updeb (1.1.9) unstable; urgency=medium
 
   * Set apt-get dist-upgrade by default.
