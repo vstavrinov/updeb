@@ -1,3 +1,9 @@
+updeb (1.1.11) unstable; urgency=medium
+
+  * Add upgrade report to auto_rollback()
+
+ -- Vladimir Stavrinov <vs@terra.oz>  Sat, 04 Mar 2017 18:22:09 +0300
+
 updeb (1.1.10) unstable; urgency=medium
 
   *   - Migrate to github   - Introduced PROTECT variable for the packages prohibited to delete.
