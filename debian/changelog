@@ -1,3 +1,10 @@
+updeb (1.1.12) unstable; urgency=medium
+
+  * fix language recognition
+  * fix typos
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Tue, 12 Nov 2019 12:13:12 +0300
+
 updeb (1.1.11) unstable; urgency=medium
 
   * Add upgrade report to auto_rollback()
