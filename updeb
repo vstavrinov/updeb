@@ -264,7 +264,7 @@ report ()
        SINCE    $(date -r $BASE/$POINT)
        TILL     $(date)
    "
-   printf %-28s%-26s%-26s PACKAGEE "OLD VERSION" "NEW VERSION"
+   printf %-28s%-26s%-26s PACKAGE "OLD VERSION" "NEW VERSION"
    echo '
 _______________________________________________________________________________
    '
