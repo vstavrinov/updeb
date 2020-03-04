@@ -1,3 +1,9 @@
+updeb (1.2.0) unstable; urgency=medium
+
+  * UNRELEASED
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Wed, 04 Mar 2020 20:28:10 +0300
+
 updeb (1.1.13) unstable; urgency=medium
 
   * - enforce bash styling - get rit of surplus debugging
