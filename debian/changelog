@@ -1,3 +1,10 @@
+updeb (1.1.13) unstable; urgency=medium
+
+  * - enforce bash styling - get rit of surplus debugging
+  * update version
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Wed, 04 Mar 2020 20:26:35 +0300
+
 updeb (1.1.12) unstable; urgency=medium
 
   * fix language recognition
