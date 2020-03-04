@@ -8,53 +8,53 @@ VERSION=1.1.12
 LAST="last"
 HELP="
 NAME
-       updeb - Non-interactive UPgrade DEBian system
+        updeb - Non-interactive UPgrade DEBian system
 
 SYNOPSIS
-       updeb  -u | -r POINT | -b POINT | -B POINT | -s | -S
-           [ -mdvqVh ] [ -c CONFIG ] [ -t MAILTO ]
+        updeb  -u | -r POINT | -b POINT | -B POINT | -s | -S
+            [ -mdvqVh ] [ -c CONFIG ] [ -t MAILTO ]
 
 DESCRIPTION
-       Non-interactivly upgrade running debian system, output
-       and/or mail report, update list of packages versions.
+        Non-interactivly upgrade running debian system, output
+        and/or mail report, update list of packages versions.
 
 OPTIONS
-       -u     Upgrade debian system.
+        -u      Upgrade debian system.
 
-       -r POINT
-              report from POINT in time or '$LAST'
+        -r POINT
+                report from POINT in time or '$LAST'
 
-       -m     Mail upgrade report.
+        -m      Mail upgrade report.
 
-       -s     update last (current) list of packages (snapshot).
+        -s      update last (current) list of packages (snapshot).
 
-       -S     Show available snapshots.
+        -S      Show available snapshots.
 
-       -B POINT
-              List what to do to roll back to POINT in time.
+        -B POINT
+                List what to do to roll back to POINT in time.
 
-       -b POINT
-              Roll back to POINT in time.
+        -b POINT
+                Roll back to POINT in time.
 
-       -a     Auto rollback if upgrade fails
+        -a      Auto rollback if upgrade fails
 
-       -e     Health check and auto rollback if it fails.
+        -e      Health check and auto rollback if it fails.
 
-       -c CONFIG
-              Set the configuration file.
+        -c CONFIG
+                Set the configuration file.
 
-       -t MAILTO
-              E-mail report send to.
+        -t MAILTO
+                E-mail report send to.
 
-       -V     Output updeb version.
+        -V      Output updeb version.
 
-       -v     Verbose mode.
+        -v      Verbose mode.
 
-       -q     Quiet mode.
+        -q      Quiet mode.
 
-       -d     Debug mode.
+        -d      Debug mode.
 
-       -h     Help.
+        -h      Help.
 "
 [ $# -eq 0 ] && echo "$HELP" && exit
 
@@ -72,113 +72,113 @@ CONFIG=${CONFIG:=/etc/updeb/updebrc}
 # Get command line options.
 OPTERR=0
 while getopts B:b:c:t:r:aeusSmdvqVh opt; do
-   case $opt in
-      c)
-    # Set config file.
-        CONFIG=$OPTARG
-        [ -f "$CONFIG" ] && . $CONFIG
-        ;;
-      t)
-    # Set addres to mail report to.
-        MAILTO=$OPTARG
-        ;;
-      u)
-    # Set upgrade task.
-    if [ -n "$EXCLUSIVE" ]; then 
-        echo "$EXCLUSIVE and $opt are mutually exclusive options."
-        exit
-    fi
-    EXCLUSIVE=$opt
-    TASK="upgrade"
-    ;;
-      b)
-    # Set rollabck task.
-    if [ -n "$EXCLUSIVE" ]; then 
-        echo "$EXCLUSIVE and $opt are mutually exclusive options."
-        exit
-    fi
-    EXCLUSIVE=$opt
-        POINT=$OPTARG
-    TASK="rollback"
-    ;;
-      B)
-    # Set list task.
-    if [ -n "$EXCLUSIVE" ]; then 
-        echo "$EXCLUSIVE and $opt are mutually exclusive options."
-        exit
-    fi
-    EXCLUSIVE=$opt
-    TASK="list"
-        POINT=$OPTARG
-    ;;
-      a)
-    # Set roll back option.
-        AUTO=true
-    ;;
-      e)
-    # Set roll back option.
-        HEALTHCHECK=true
-    ;;
-      r)
-    # Set report task.
-    if [ -n "$EXCLUSIVE" ]; then 
-        echo "$EXCLUSIVE and $opt are mutually exclusive options."
-        exit
-    fi
-    EXCLUSIVE=$opt
-    TASK="report"
-        POINT=$OPTARG
-    ;;
-      s)
-    # Set update task.
-    if [ -n "$EXCLUSIVE" ]; then 
-        echo "$EXCLUSIVE and $opt are mutually exclusive options."
-        exit
-    fi
-    EXCLUSIVE=$opt
-    TASK="update"
-    ;;
-      S)
-    # Set show task.
-    if [ -n "$EXCLUSIVE" ]; then 
-        echo "$EXCLUSIVE and $opt are mutually exclusive options."
-        exit
-    fi
-    EXCLUSIVE=$opt
-    TASK="show"
-    ;;
-      m)
-    # Set mail option.
-        SEND=true
-    ;;
-      v)
-    # Set verbose mode.
-        VERBOSE="-v"
-    ;;
-      q)
-    # Set quiet mode.
-        unset VERBOSE
-    ;;
-      d)
-    # Set debug mode.
-        set -x -v
-    DEBUG=true
-    ;;
-      V)
-        echo "
-    updeb $VERSION
-    (C) Vladimir Stavrinov vstavrinov@gmail.com
-    "
-    exit
-    ;;
-      h|*)
-        echo "$HELP"
-    exit
-    ;;
-   esac
+    case $opt in
+        c)
+            # Set config file.
+            CONFIG=$OPTARG
+            [ -f "$CONFIG" ] && . $CONFIG
+            ;;
+        t)
+            # Set addres to mail report to.
+            MAILTO=$OPTARG
+            ;;
+        u)
+            # Set upgrade task.
+            if [ -n "$EXCLUSIVE" ]; then
+                echo "$EXCLUSIVE and $opt are mutually exclusive options."
+                exit
+            fi
+            EXCLUSIVE=$opt
+            TASK="upgrade"
+            ;;
+        b)
+            # Set rollabck task.
+            if [ -n "$EXCLUSIVE" ]; then
+                echo "$EXCLUSIVE and $opt are mutually exclusive options."
+                exit
+            fi
+            EXCLUSIVE=$opt
+                POINT=$OPTARG
+            TASK="rollback"
+            ;;
+        B)
+            # Set list task.
+            if [ -n "$EXCLUSIVE" ]; then
+                echo "$EXCLUSIVE and $opt are mutually exclusive options."
+                exit
+            fi
+            EXCLUSIVE=$opt
+            TASK="list"
+            POINT=$OPTARG
+            ;;
+        a)
+            # Set roll back option.
+            AUTO=true
+            ;;
+        e)
+            # Set roll back option.
+            HEALTHCHECK=true
+            ;;
+        r)
+            # Set report task.
+            if [ -n "$EXCLUSIVE" ]; then
+                echo "$EXCLUSIVE and $opt are mutually exclusive options."
+                exit
+            fi
+            EXCLUSIVE=$opt
+            TASK="report"
+            POINT=$OPTARG
+            ;;
+        s)
+            # Set update task.
+            if [ -n "$EXCLUSIVE" ]; then
+                echo "$EXCLUSIVE and $opt are mutually exclusive options."
+                exit
+            fi
+            EXCLUSIVE=$opt
+            TASK="update"
+            ;;
+        S)
+            # Set show task.
+            if [ -n "$EXCLUSIVE" ]; then
+                echo "$EXCLUSIVE and $opt are mutually exclusive options."
+                exit
+            fi
+            EXCLUSIVE=$opt
+            TASK="show"
+            ;;
+        m)
+            # Set mail option.
+            SEND=true
+            ;;
+        v)
+            # Set verbose mode.
+            VERBOSE="-v"
+            ;;
+        q)
+            # Set quiet mode.
+            unset VERBOSE
+            ;;
+        d)
+            # Set debug mode.
+            set -x -v
+            DEBUG=true
+            ;;
+        V)
+            echo "
+            updeb $VERSION
+            (C) Vladimir Stavrinov vstavrinov@gmail.com
+            "
+            exit
+            ;;
+        h|*)
+            echo "$HELP"
+            exit
+            ;;
+    esac
 done
 
-shift  $[$OPTIND - 1]
+shift  $(($OPTIND - 1))
 OPTION=${1+$@}
 
 # Set non interactive mode
@@ -221,7 +221,8 @@ get_package ()
         if HEAD $SNAPSHOT/$URL > /dev/null; then
             echo ${SNAPSHOT}${URL}
             if [ "$TASK" = "rollback" ]; then
-                wget ${VERBOSE:--q} -O ${CACHE}/${1}_${2/:/%3a}_${3}.deb $SNAPSHOT/$URL ||
+                wget ${VERBOSE:--q} -O ${CACHE}/${1}_${2/:/%3a}_${3}.deb \
+                    $SNAPSHOT/$URL ||
                 return 1
             fi
         fi
@@ -233,8 +234,9 @@ get_package ()
 snapshot ()
 {
       # Get current packages list (system state)
-      dpkg-query -W  --showformat="\${Package;}\t\${Version;}\t\${Status;-10}\t\${Architecture;}\n" |
-      grep "install ok"
+    dpkg-query -W  --showformat="
+        \${Package;}\t\${Version;}\t\${Status;-10}\t\${Architecture;}\n" |
+    grep "install ok"
 }
 
 get_diff ()
@@ -244,31 +246,31 @@ get_diff ()
     DIFF="$(snapshot | sdiff -s $BASE/$POINT - |
     awk '
     {
-      if ($6 == "|") 
-        printf "%-28s %-26s %-26s\n",$1,$2,$8; 
-      if ($6 == "<") 
-        printf "%-28s %-26s %-26s\n",$1,$2,"removed"; 
-      if ($1 == ">") 
-        printf "%-28s %-26s %-26s\n",$2,"installed",$3
+        if ($6 == "|")
+            printf "%-28s %-26s %-26s\n",$1,$2,$8;
+        if ($6 == "<")
+            printf "%-28s %-26s %-26s\n",$1,$2,"removed";
+        if ($1 == ">")
+            printf "%-28s %-26s %-26s\n",$2,"installed",$3
     }')"
 }
 
 report ()
 {
    # Get upgrade report.
-   get_diff
-   [ -z "$DIFF" ] && return
-   echo "
-       DEBIAN UPGRADE REPORT
+    get_diff
+    [ -z "$DIFF" ] && return
+    echo "
+        DEBIAN UPGRADE REPORT
 
-       SINCE    $(date -r $BASE/$POINT)
-       TILL     $(date)
-   "
-   printf %-28s%-26s%-26s PACKAGE "OLD VERSION" "NEW VERSION"
-   echo '
+        SINCE    $(date -r $BASE/$POINT)
+        TILL     $(date)
+    "
+    printf %-28s%-26s%-26s PACKAGE "OLD VERSION" "NEW VERSION"
+    echo '
 _______________________________________________________________________________
-   '
-   echo "$DIFF"
+    '
+    echo "$DIFF"
 }
 
 protect ()
@@ -312,62 +314,61 @@ protect ()
     else
         RETURN=0
     fi
-    set -x
+    $DEBUG && set -x
     return $RETURN
 }
 
 do_upgrade ()
 {
-      # Upgrade system
-      eval ${VERBOSE:+echo "Do upgrade"}
-      set -x
-      $APT -q update &&
-      protect $APT $PARAMETERS ${VERBOSE:+-V -q=1} -y $DIST -s &&
-      $APT $PARAMETERS ${VERBOSE:+-V -q=1} -d -y $DIST &&
-      eval $APT ${DPKG} $PARAMETERS ${VERBOSE:+-V -q=1} -y $DIST &&
-      if [ -n "$INSTALL" ]; then
-          protect $APT $PARAMETERS ${VERBOSE:+-V -q=1} -y install $INSTALL -s &&
-          $APT $PARAMETERS ${VERBOSE:+-V -q=1} -d -y install $INSTALL &&
-          eval $APT ${DPKG} $PARAMETERS ${VERBOSE:+-V -q=1} -y install $INSTALL
-      fi &&
-      dpkg -D1 --force-confdef --force-confold --configure -a
-      RETURN=$?
-      $DEBUG || set +x
-      if [ $RETURN -eq 0 ]; then
-          $AUTOREMOVE && $APT -y autoremove
-      fi
-      return $RETURN
+    # Upgrade system
+    eval ${VERBOSE:+echo "Do upgrade"}
+    $APT -q update &&
+    protect $APT $PARAMETERS ${VERBOSE:+-V -q=1} -y $DIST -s &&
+    $APT $PARAMETERS ${VERBOSE:+-V -q=1} -d -y $DIST &&
+    eval $APT ${DPKG} $PARAMETERS ${VERBOSE:+-V -q=1} -y $DIST &&
+    if [ -n "$INSTALL" ]; then
+        protect $APT $PARAMETERS ${VERBOSE:+-V -q=1} -y install $INSTALL -s &&
+        $APT $PARAMETERS ${VERBOSE:+-V -q=1} -d -y install $INSTALL &&
+        eval $APT ${DPKG} $PARAMETERS ${VERBOSE:+-V -q=1} -y install $INSTALL
+    fi &&
+    dpkg -D1 --force-confdef --force-confold --configure -a
+    RETURN=$?
+    $DEBUG || set +x
+    if [ $RETURN -eq 0 ]; then
+        $AUTOREMOVE && $APT -y autoremove
+    fi
+    return $RETURN
 }
 
 show ()
 {
     # Show snapshots list
-    find $BASE  -regextype posix-egrep -regex "$BASE/[0-9]{14}" -printf "%f\n" |
+    find $BASE  -regextype posix-egrep -regex "$BASE/[0-9]{14}" -printf "%f\n"|
     sort -n
     file $BASE/$LAST
 }
 
 update ()
 {
-   # Update snapshots set with current system state.
-   NAME=$(date "+%Y%m%d%H%M%S")
-   snapshot > $BASE/$NAME 
-   if diff -q $BASE/$NAME $BASE/$LAST; then
-       rm ${VERBOSE:+-v} $BASE/$NAME 
-       eval ${VERBOSE:+echo "Not need to update snapshot."}
-   else
-       rm ${VERBOSE:+-v} $BASE/$LAST
-       ln -s $NAME $BASE/$LAST
-       eval ${VERBOSE:+echo "Snapshot updated."}
-   fi
-} 
+    # Update snapshots set with current system state.
+    NAME=$(date "+%Y%m%d%H%M%S")
+    snapshot > $BASE/$NAME
+    if diff -q $BASE/$NAME $BASE/$LAST; then
+        rm ${VERBOSE:+-v} $BASE/$NAME
+        eval ${VERBOSE:+echo "Not need to update snapshot."}
+    else
+        rm ${VERBOSE:+-v} $BASE/$LAST
+        ln -s $NAME $BASE/$LAST
+        eval ${VERBOSE:+echo "Snapshot updated."}
+    fi
+}
 
 get_rollback ()
 {
     # Compare last and target snapshots and find packages/versions to install. 
     eval ${VERBOSE:+echo "Get rollback"}
     update
-    while read; do 
+    while read; do
         # See if package version exsists in last (currsent) snapshot (system)
         if ! grep -q "$REPLY" $BASE/$LAST; then
             # Get package name, version and arch as array.
@@ -382,7 +383,6 @@ get_rollback ()
                 else
                     MISSING="${MISSING}${FILE}"$'\n'
                 fi
-                
             fi
         fi
     done < $BASE/$POINT
@@ -392,7 +392,7 @@ get_remove ()
 {
     # Get removal packges list.
     eval ${VERBOSE:+echo "Get remove"}
-    while read; do 
+    while read; do
         PACKAGE=(${REPLY})
         if ! grep -qE "^${PACKAGE[0]//+/\\+}"$'\t' $BASE/$POINT; then
             REMOVE="${REMOVE}${PACKAGE[0]}"$'\n'
@@ -438,9 +438,9 @@ auto_rollback ()
     $SEND && report |
     mail -Es "Debian upgrade report for $(date +%F) at $HOSTNAME" $MAILTO
     if rollback; then
-       echo -e "\\n\\t---=== ROLLED BACK TO $POINT $(date) ===---\\n"
+        echo -e "\\n\\t---=== ROLLED BACK TO $POINT $(date) ===---\\n"
     else
-       echo -e "\\n\\t---=== ROLLED BACK TO $POINT FAILED! $(date) ===---\\n"
+        echo -e "\\n\\t---=== ROLLED BACK TO $POINT FAILED! $(date) ===---\\n"
     fi
     $SEND && report |
     mail -s "Debian ROLLED BACK to $POINT at $HOSTNAME" $MAILTO
@@ -449,45 +449,46 @@ auto_rollback ()
 
 upgrade ()
 {
-       # Execute upgrade task.
-       exec >> $LOG 2>&1
-       echo -e "\\n\\t---=== START  $(date) ===---\\n"
-       CURRENT=$(date "+%Y%m%d%H%M%S")
-       snapshot > $BASE/$CURRENT
-       preupgrade
-       $APT ${VERBOSE:+-V -q=1} -y $CLEAN 
-       {
-         do_upgrade ||
-         {
-           set -x
-           $APT -y -f install
-           dpkg -D1 --force-confdef --force-confold --configure -a
-           do_upgrade
-         }
-       } ||
-       { 
-           echo -e "\\n\\t---=== FINISH with errors (exit status $RETURN) $(date) ===---\\n"
-           if eval ${AUTO:=false}; then
-               auto_rollback
-           else
-               $SEND &&
-               tail -20 $LOG |
-               mail -s "Debian upgrade FAILED at $(date +%F) at $HOSTNAME" $MAILTO
-           fi
-           postupgrade
-       }
-       if ! eval ${HEALTHCHECK:=false}; then
-        $SEND && report |
-        mail -Es "Debian upgrade report for $(date +%F) at $HOSTNAME" $MAILTO
-        update
+    # Execute upgrade task.
+    exec >> $LOG 2>&1
+    echo -e "\\n\\t---=== START  $(date) ===---\\n"
+    CURRENT=$(date "+%Y%m%d%H%M%S")
+    snapshot > $BASE/$CURRENT
+    preupgrade
+    $APT ${VERBOSE:+-V -q=1} -y $CLEAN
+    {
+        do_upgrade ||
+            {
+                set -x
+                $APT -y -f install
+                dpkg -D1 --force-confdef --force-confold --configure -a
+                do_upgrade
+            }
+    } ||
+    {
+        echo -e "\\n\\t---=== FINISH with errors (exit status $RETURN) \
+            $(date) ===---\\n"
+        if eval ${AUTO:=false}; then
+            auto_rollback
+        else
+            $SEND &&
+            tail -20 $LOG |
+            mail -s "Debian upgrade FAILED at $(date +%F) at $HOSTNAME" $MAILTO
+        fi
         postupgrade
-        echo "
-        ---=== FINISH  $(date) ===---
-        "
-       elif ! healthcheck; then
-           auto_rollback
-       fi
-       rm ${VERBOSE:+-v} $BASE/$CURRENT
+    }
+    if ! eval ${HEALTHCHECK:=false}; then
+    $SEND && report |
+    mail -Es "Debian upgrade report for $(date +%F) at $HOSTNAME" $MAILTO
+    update
+    postupgrade
+    echo "
+    ---=== FINISH  $(date) ===---
+    "
+    elif ! healthcheck; then
+        auto_rollback
+    fi
+    rm ${VERBOSE:+-v} $BASE/$CURRENT
 
 }
 
@@ -514,7 +515,7 @@ list ()
     fi
 }
 
-case $TASK in 
+case $TASK in
     upgrade)
         eval ${VERBOSE:+echo "Start upgrade."}
         upgrade
@@ -526,7 +527,8 @@ case $TASK in
     report)
         if $SEND; then
             report |
-            mail -Es "Debian upgrade report for $(date +%F) at $HOSTNAME" $MAILTO
+            mail -Es "Debian upgrade report for $(date +%F) at $HOSTNAME" \
+                $MAILTO
             update
         else
             report
