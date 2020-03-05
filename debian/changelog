@@ -1,3 +1,9 @@
+updeb (1.2.1) unstable; urgency=medium
+
+  * replace mailutils with bsd-mailx in dependencies to don't send an empty mail of report
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Thu, 05 Mar 2020 11:58:24 +0300
+
 updeb (1.2.0) unstable; urgency=medium
 
   * UNRELEASED
