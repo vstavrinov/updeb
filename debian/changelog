@@ -1,3 +1,9 @@
+updeb (1.2.2) unstable; urgency=medium
+
+  * fix snapshot format
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Wed, 29 Jul 2020 22:36:03 +0300
+
 updeb (1.2.1) unstable; urgency=medium
 
   * replace mailutils with bsd-mailx in dependencies to don't send an empty mail of report
