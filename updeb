@@ -3,7 +3,7 @@
 
 exec -a updeb < /dev/null
 
-VERSION=1.2.0
+VERSION=1.2.2
 
 LAST="last"
 HELP="
@@ -233,9 +233,9 @@ get_package ()
 
 snapshot ()
 {
-      # Get current packages list (system state)
-    dpkg-query -W  --showformat="
-        \${Package;}\t\${Version;}\t\${Status;-10}\t\${Architecture;}\n" |
+    # Get current packages list (system state)
+    FORMAT='${Package;}\t${Version;}\t${Status;-10}\t${Architecture;}\n'
+    dpkg-query -W  --showformat="$FORMAT" |
     grep "install ok"
 }
 
