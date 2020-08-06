@@ -1,3 +1,9 @@
+updeb (1.2.3) unstable; urgency=medium
+
+  * Fix rollback:   - adjust changed URL pattern   - update rollback list even if no download needed   - fix package pattern with beginning of the line
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Thu, 06 Aug 2020 22:35:55 +0300
+
 updeb (1.2.2) unstable; urgency=medium
 
   * fix snapshot format
