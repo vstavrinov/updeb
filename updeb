@@ -3,7 +3,7 @@
 
 exec -a updeb < /dev/null
 
-VERSION=1.2.2
+VERSION=1.2.3
 
 LAST="last"
 HELP="
@@ -211,12 +211,13 @@ export UCF_FORCE_CONFFOLD=1
 get_package ()
 {
     # Get URL to download package from.
-    PKG_VER=${2/+/%2B}
-    [ -z "$3" ] && return 1
-    PAGE=$(wget -qO - $SNAPSHOT/binary/$1/ |
-        grep -iPo "<a href=\"\K[^\"]*/${PKG_VER/:/%3A}/[^\"]*")
+    PKG_VER=${2#*:}
+    PKG_VER=${PKG_VER//+/%2b}
+    PAGE=$(wget -qO - $SNAPSHOT/binary/$1/ | grep ">$2 " |
+        grep -iPo "<a href=\"\K[^\"]*(?=\")")
     URL=$(wget -qO - $SNAPSHOT/binary/$1/$PAGE |
-        grep -iPo "<a href=\"\K/archive/debian/.*/${1}_${PKG_VER#*:}_${3}.deb")
+        grep -iPo "<a href=\"\K/archive/debian/.*/${1}_${PKG_VER}_${3}.deb")
+    [ -z "$3" ] && return 1
     if [ -n "$URL" ]; then
         if HEAD $SNAPSHOT/$URL > /dev/null; then
             echo ${SNAPSHOT}${URL}
@@ -366,23 +367,24 @@ update ()
 get_rollback ()
 {
     # Compare last and target snapshots and find packages/versions to install. 
-    eval ${VERBOSE:+echo "Get rollback"}
+    eval ${VERBOSE:+echo "Get rollback to $POINT"}
     update
     while read; do
         # See if package version exsists in last (currsent) snapshot (system)
-        if ! grep -q "$REPLY" $BASE/$LAST; then
+        if ! grep -q "^$REPLY" $BASE/$LAST; then
             # Get package name, version and arch as array.
             PACKAGE=(${REPLY})
             # Build package file name
             FILE="${PACKAGE[0]}_${PACKAGE[1]/:/%3a}_${PACKAGE[4]}.deb"
             if ! [ -f $CACHE/$FILE ]; then
-                if DOWNLOAD="${DOWNLOAD}$(
-                    get_package ${PACKAGE[0]} ${PACKAGE[1]} ${PACKAGE[4]}
-                    )"$'\n'; then
+                if URL="$(get_package ${PACKAGE[0]} ${PACKAGE[1]} ${PACKAGE[4]})"; then
+                    DOWNLOAD="${DOWNLOAD}$URL"$'\n'
                     ROLLBACK="${ROLLBACK}${FILE}"$'\n'
                 else
                     MISSING="${MISSING}${FILE}"$'\n'
                 fi
+            else
+                ROLLBACK="${ROLLBACK}${FILE}"$'\n'
             fi
         fi
     done < $BASE/$POINT
