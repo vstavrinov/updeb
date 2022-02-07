@@ -3,7 +3,7 @@
 
 exec -a updeb < /dev/null
 
-VERSION=1.2.3
+VERSION=1.2.4
 
 LAST="last"
 HELP="
