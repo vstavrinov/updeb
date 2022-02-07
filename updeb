@@ -377,7 +377,8 @@ get_rollback ()
             # Build package file name
             FILE="${PACKAGE[0]}_${PACKAGE[1]/:/%3a}_${PACKAGE[4]}.deb"
             if ! [ -f $CACHE/$FILE ]; then
-                if URL="$(get_package ${PACKAGE[0]} ${PACKAGE[1]} ${PACKAGE[4]})"; then
+                if URL="$(get_package ${PACKAGE[0]} ${PACKAGE[1]} ${PACKAGE[4]}
+                        )"; then
                     DOWNLOAD="${DOWNLOAD}$URL"$'\n'
                     ROLLBACK="${ROLLBACK}${FILE}"$'\n'
                 else
@@ -431,6 +432,7 @@ rollback ()
     eval ${VERBOSE:+list}
     do_install
     do_remove
+    update
 }
 
 auto_rollback ()
@@ -480,13 +482,13 @@ upgrade ()
         postupgrade
     }
     if ! eval ${HEALTHCHECK:=false}; then
-    $SEND && report |
-    mail -Es "Debian upgrade report for $(date +%F) at $HOSTNAME" $MAILTO
-    update
-    postupgrade
-    echo "
-    ---=== FINISH  $(date) ===---
-    "
+        $SEND && report |
+        mail -Es "Debian upgrade report for $(date +%F) at $HOSTNAME" $MAILTO
+        update
+        postupgrade
+        echo "
+        ---=== FINISH  $(date) ===---
+        "
     elif ! healthcheck; then
         auto_rollback
     fi
