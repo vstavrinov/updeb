@@ -1,3 +1,10 @@
+updeb (1.2.4) unstable; urgency=medium
+
+  * update snapshot after rollback to fix the last link
+  * update version
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Mon, 07 Feb 2022 21:08:25 +0300
+
 updeb (1.2.3) unstable; urgency=medium
 
   * Fix rollback:   - adjust changed URL pattern   - update rollback list even if no download needed   - fix package pattern with beginning of the line
