@@ -3,7 +3,7 @@
 
 exec -a updeb < /dev/null
 
-VERSION=1.2.4
+VERSION=1.2.5
 
 LAST="last"
 HELP="
@@ -282,6 +282,7 @@ protect ()
         echo "No command povided as argument. Aborting."
         return 2
     fi
+    REMOVED="$(
     $@ |
     while read; do
         if [ "$REPLY" = 'The following packages will be REMOVED:' ]; then
@@ -292,15 +293,17 @@ protect ()
             if [ "${REPLY/#  /}" != "${REPLY}" ]; then
                 REMOVED="${REMOVED}${REPLY}"
             else
+                echo $REMOVED
                 break
             fi
         fi
-    done
+    done)"
     if [ -n "$REMOVED" ] && [ -n "$PROTECT" ]; then
         VICTIMS="$(
             echo "$REMOVED" |
             grep -Ewo "$(echo $PROTECT |
-                sed -r 's/[[:blank:]]+/|/g')"
+                sed -r 's/[[:blank:]]+/|/g')" |
+            sort | uniq
         )"
         if [ -n "$VICTIMS" ]; then
             echo "The following PROCTECTED packages will to be REMOVED:"
