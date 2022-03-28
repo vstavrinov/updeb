@@ -1,3 +1,9 @@
+updeb (1.2.5) unstable; urgency=medium
+
+  * fix protect(): empty removing packages list
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Mon, 28 Mar 2022 20:57:18 +0300
+
 updeb (1.2.4) unstable; urgency=medium
 
   * update snapshot after rollback to fix the last link
