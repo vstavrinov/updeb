@@ -1,3 +1,9 @@
+updeb (1.2.6) unstable; urgency=medium
+
+  * fix typo
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Tue, 29 Mar 2022 18:12:45 +0300
+
 updeb (1.2.5) unstable; urgency=medium
 
   * fix protect(): empty removing packages list
