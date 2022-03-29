@@ -3,7 +3,7 @@
 
 exec -a updeb < /dev/null
 
-VERSION=1.2.5
+VERSION=1.2.6
 
 LAST="last"
 HELP="
@@ -306,7 +306,7 @@ protect ()
             sort | uniq
         )"
         if [ -n "$VICTIMS" ]; then
-            echo "The following PROCTECTED packages will to be REMOVED:"
+            echo "The following PROTECTED packages will to be REMOVED:"
             echo
             printf "\t%s\n" $VICTIMS
             echo
