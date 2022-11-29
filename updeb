@@ -3,7 +3,7 @@
 
 exec -a updeb < /dev/null
 
-VERSION=1.2.6
+VERSION=1.2.7
 
 LAST="last"
 HELP="
@@ -338,9 +338,7 @@ do_upgrade ()
     dpkg -D1 --force-confdef --force-confold --configure -a
     RETURN=$?
     $DEBUG || set +x
-    if [ $RETURN -eq 0 ]; then
-        $AUTOREMOVE && $APT -y autoremove
-    fi
+    $AUTOREMOVE && $APT -y autoremove
     return $RETURN
 }
 
