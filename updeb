@@ -3,7 +3,7 @@
 
 exec -a updeb < /dev/null
 
-VERSION=1.2.7
+VERSION=1.2.8
 
 LAST="last"
 HELP="
@@ -326,6 +326,7 @@ do_upgrade ()
 {
     # Upgrade system
     eval ${VERBOSE:+echo "Do upgrade"}
+    $AUTOREMOVE && $APT -y autoremove
     $APT -q update &&
     protect $APT $PARAMETERS ${VERBOSE:+-V -q=1} -y $DIST -s &&
     $APT $PARAMETERS ${VERBOSE:+-V -q=1} -d -y $DIST &&
@@ -338,7 +339,6 @@ do_upgrade ()
     dpkg -D1 --force-confdef --force-confold --configure -a
     RETURN=$?
     $DEBUG || set +x
-    $AUTOREMOVE && $APT -y autoremove
     return $RETURN
 }
 
