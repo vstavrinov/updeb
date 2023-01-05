@@ -1,3 +1,9 @@
+updeb (1.2.8) unstable; urgency=medium
+
+  * move autoremove to before upgrade
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Thu, 05 Jan 2023 17:18:46 +0300
+
 updeb (1.2.7) unstable; urgency=medium
 
   * if set run autoremove independently of upgrade result
