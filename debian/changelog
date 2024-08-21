@@ -1,3 +1,9 @@
+updeb (1.2.9) unstable; urgency=medium
+
+  *  add missing dependency
+
+ -- Vladimir Stavrinov <vstavrinov@gmail.com>  Wed, 21 Aug 2024 18:34:05 +0300
+
 updeb (1.2.8) unstable; urgency=medium
 
   * move autoremove to before upgrade
