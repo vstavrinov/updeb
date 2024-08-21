@@ -10,7 +10,7 @@ Vcs-Browser: https://github.com/vstavrinov/updeb
 
 Package: updeb
 Architecture: all
-Depends: ${misc:Depends}, bsd-mailx, aptitude | apt, debtags
+Depends: ${misc:Depends}, bsd-mailx, aptitude | apt, debtags, libwww-perl
 Description: Non-interactive upgrade Debian system
  This script will upgrade running Debian system and email the result: what was
  upgraded, from what version to what and for what period of time. The actual
